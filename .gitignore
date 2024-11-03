@@ -1,15 +1,15 @@
-# See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
-
 # Compiled output
 /dist
 /tmp
 /out-tsc
 /bazel-out
 
-# Node
+# Node modules
 /node_modules
 npm-debug.log
 yarn-error.log
+package-lock.json
+yarn.lock
 
 # IDEs and editors
 .idea/
@@ -29,14 +29,20 @@ yarn-error.log
 !.vscode/extensions.json
 .history/*
 
-# Miscellaneous
+# Angular and build caches
 /.angular/cache
 .sass-cache/
-/connect.lock
+
+# Logs and coverage
 /coverage
 /libpeerconnection.log
 testem.log
+
+# Miscellaneous files
+/connect.lock
 /typings
+firebase-adminsdk.json
+credentials.json
 
 # System files
 .DS_Store
