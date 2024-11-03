@@ -31,8 +31,6 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 - Endpoint: /calendar/add-event
 - Parameters: eventTitle (String), date (String)
 
----
-
 ## MoodLogController
 
 ### Get All Mood Logs
@@ -61,8 +59,6 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 
 - Method: **DELETE**
 - Endpoint: /mood-logs/{id}
-
----
 
 ## NotificationController
 
@@ -93,8 +89,6 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 - Method: **DELETE**
 - Endpoint: /notifications/{id}
 
----
-
 ## RoutineController
 
 ### Get All Routines
@@ -124,8 +118,6 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 - Method: **DELETE**
 - Endpoint: /routines/{id}
 
----
-
 ## UserController
 
 ### Get All Users
@@ -154,8 +146,6 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 
 - Method: **DELETE**
 - Endpoint: /users/{id}
-
----
 
 ## Branching Strategy
 
@@ -211,3 +201,5 @@ To ensure quality and consistency, we use a pull request (PR) workflow with mand
 - **Commit Messages**: Use clear, concise commit messages summarizing changes.
 - **PR Reviews**: All PRs require at least one review and approval.
 - **Testing**: Ensure local testing before PR submission.
+
+---
