@@ -19,32 +19,20 @@ export class LoginComponent {
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
+      password: ['', Validators.required],
     });
+  }
+
+  onSubmit(): void {
+    if (this.loginForm.valid) {
+      const { email, password } = this.loginForm.value;
+      this.authService.login(email, password).subscribe(() => {
+        this.router.navigate(['/dashboard']);
+      });
+    }
   }
 
   toggleMode(): void {
     this.isRegistering = !this.isRegistering;
-  }
-
-  onSubmit(): void {
-    const { email, password } = this.loginForm.value;
-    if (this.isRegistering) {
-      this.authService.register(email, password).subscribe({
-        next: (response) => {
-          console.log('Registered:', response);
-          this.router.navigate(['/dashboard']);
-        },
-        error: (error) => console.error('Registration error:', error),
-      });
-    } else {
-      this.authService.login(email, password).subscribe({
-        next: (response) => {
-          console.log('Logged in:', response);
-          this.router.navigate(['/dashboard']);
-        },
-        error: (error) => console.error('Login error:', error),
-      });
-    }
   }
 }
