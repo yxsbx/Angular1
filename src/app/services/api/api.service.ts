@@ -1,16 +1,22 @@
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../environments/environment';
+import { environment } from '../../../environments/environment.prod';
 import { MoodLogDto, NotificationDto, RoutineDto, UserDto } from '../../dtos';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApiService {
-  private apiUrl = environment.apiUrl;
+  private apiUrl = environment.production;
 
   constructor(private http: HttpClient) {}
+
+  // Login method for public access
+  login(email: string, password: string): Observable<any> {
+    const endpoint = `${this.apiUrl}/auth/login`;
+    return this.http.post(endpoint, { email, password });
+  }
 
   // CalendarController Methods
   addEventToCalendar(eventTitle: string, date: string): Observable<any> {

@@ -4,7 +4,7 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { ApiService } from './api.service';
-import { environment } from '../../../environments/environment';
+import { environment } from '../../../environments/environment.prod';
 import { MoodLogDto, NotificationDto, RoutineDto, UserDto } from '../../dtos';
 
 describe('ApiService', () => {

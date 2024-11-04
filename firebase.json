@@ -1,0 +1,24 @@
+{
+  "project": "carbon-web-420422",
+  "hosting": {
+    "public": "dist",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  },
+  "emulators": {
+    "auth": {
+      "host": "127.0.0.1",
+      "port": 9200
+    },
+    "ui": {
+      "enabled": true,
+      "port": 9099
+    },
+    "singleProjectMode": true
+  }
+}
