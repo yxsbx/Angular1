@@ -1,6 +1,151 @@
 # Project: Daily Routine Flow System
 
 This project describes a day-long flow, from waking up to going to sleep. Developed using Angular, the application provides users with a detailed, interactive experience of their daily routines.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.10.
+
+## Development server
+
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+
+## Code scaffolding
+
+Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+
+## Build
+
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+
+## Running unit tests
+
+Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+
+## Running end-to-end tests
+
+Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+
+## CalendarController
+
+### Add Event to Calendar
+
+- Method: **POST**
+- Endpoint: /calendar/add-event
+- Parameters: eventTitle (String), date (String)
+
+## MoodLogController
+
+### Get All Mood Logs
+
+- Method: **GET**
+- Endpoint: /mood-logs
+
+### Create Mood Log
+
+- Method: **POST**
+- Endpoint: /mood-logs
+- Body: MoodLogDto
+
+### Get Mood Log by ID
+
+- Method: **GET**
+- Endpoint: /mood-logs/{id}
+
+### Update Mood Log by ID
+
+- Method: **PUT**
+- Endpoint: /mood-logs/{id}
+- Body: MoodLogDto
+
+### Delete Mood Log by ID
+
+- Method: **DELETE**
+- Endpoint: /mood-logs/{id}
+
+## NotificationController
+
+### Get All Notifications
+
+- Method: **GET**
+- Endpoint: /notifications
+
+### Create Notification
+
+- Method: **POST**
+- Endpoint: /notifications
+- Body: NotificationDto
+
+### Get Notification by ID
+
+- Method: **GET**
+- Endpoint: /notifications/{id}
+
+### Update Notification by ID
+
+- Method: **PUT**
+- Endpoint: /notifications/{id}
+- Body: NotificationDto
+
+### Delete Notification by ID
+
+- Method: **DELETE**
+- Endpoint: /notifications/{id}
+
+## RoutineController
+
+### Get All Routines
+
+- Method: **GET**
+- Endpoint: /routines
+
+### Create Routine
+
+- Method: **POST**
+- Endpoint: /routines
+- Body: RoutineDto
+
+### Get Routine by ID
+
+- Method: **GET**
+- Endpoint: /routines/{id}
+
+### Update Routine by ID
+
+- Method: **PUT**
+- Endpoint: /routines/{id}
+- Body: RoutineDto
+
+### Delete Routine by ID
+
+- Method: **DELETE**
+- Endpoint: /routines/{id}
+
+## UserController
+
+### Get All Users
+
+- Method: \*\*GET
+- Endpoint: /users
+
+### Create User
+
+- Method: **POST**
+- Endpoint: /users
+- Body: UserDto
+
+### Get User by ID
+
+- Method: **GET**
+- Endpoint: /users/{id}
+
+### Update User by ID
+
+- Method: **PUT**
+- Endpoint: /users/{id}
+- Body: UserDto
+
+### Delete User by ID
+
+- Method: **DELETE**
+- Endpoint: /users/{id}
 
 ## Branching Strategy
 
@@ -58,5 +203,3 @@ To ensure quality and consistency, we use a pull request (PR) workflow with mand
 - **Testing**: Ensure local testing before PR submission.
 
 ---
-
-This README gives clear direction for contributors and ensures that the development flow remains organized and traceable. Let me know if you'd like any adjustments or further details added.
