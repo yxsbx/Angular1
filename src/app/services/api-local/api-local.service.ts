@@ -1,6 +1,11 @@
 import { Observable, of } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { MoodLogDto, NotificationDto, RoutineDto, UserDto } from '../../dtos';
+import {
+  MoodLogDto,
+  NotificationDto,
+  RoutineDto,
+  LocalUserDto,
+} from '../../dtos';
 
 @Injectable({
   providedIn: 'root',
@@ -16,14 +21,46 @@ export class ApiLocalService {
   }
 
   private initializeStorage(): void {
-    if (!localStorage.getItem(this.moodLogsKey))
+    if (!localStorage.getItem(this.moodLogsKey)) {
       localStorage.setItem(this.moodLogsKey, JSON.stringify([]));
-    if (!localStorage.getItem(this.notificationsKey))
+    }
+    if (!localStorage.getItem(this.notificationsKey)) {
       localStorage.setItem(this.notificationsKey, JSON.stringify([]));
-    if (!localStorage.getItem(this.routinesKey))
+    }
+    if (!localStorage.getItem(this.routinesKey)) {
       localStorage.setItem(this.routinesKey, JSON.stringify([]));
-    if (!localStorage.getItem(this.usersKey))
-      localStorage.setItem(this.usersKey, JSON.stringify([]));
+    }
+    if (!localStorage.getItem(this.usersKey)) {
+      const defaultUser = {
+        id: 1,
+        email: 'admin@gmail.com',
+        password: 'admin',
+      };
+      localStorage.setItem(this.usersKey, JSON.stringify([defaultUser]));
+    }
+  }
+
+  login(
+    email: string,
+    password: string
+  ): Observable<{ success: boolean; user?: LocalUserDto }> {
+    const users = JSON.parse(localStorage.getItem(this.usersKey) || '[]');
+    const user = users.find(
+      (u: any) => u.email === email && u.password === password
+    );
+
+    if (user) {
+      return of({ success: true, user });
+    } else {
+      return of({ success: false });
+    }
+  }
+
+  getUserByEmail(email: string): Observable<LocalUserDto | undefined> {
+    const users: LocalUserDto[] = JSON.parse(
+      localStorage.getItem(this.usersKey) || '[]'
+    );
+    return of(users.find((u: any) => u.email === email));
   }
 
   addEventToCalendar(eventTitle: string, date: string): Observable<any> {
@@ -174,21 +211,25 @@ export class ApiLocalService {
     return of();
   }
 
-  getAllUsers(): Observable<UserDto[]> {
+  getAllUsers(): Observable<LocalUserDto[]> {
     const users = JSON.parse(localStorage.getItem(this.usersKey) || '[]');
     return of(users);
   }
 
-  createUser(user: UserDto): Observable<UserDto> {
+  createUser(user: LocalUserDto): Observable<LocalUserDto> {
     const users = JSON.parse(localStorage.getItem(this.usersKey) || '[]');
-    user.id = new Date().getTime();
-    users.push(user);
+    const newUser = {
+      ...user,
+      id: new Date().getTime(),
+      name: user.name || 'Default Name',
+    };
+    users.push(newUser);
     localStorage.setItem(this.usersKey, JSON.stringify(users));
-    return of(user);
+    return of(newUser);
   }
 
-  getUserById(id: number): Observable<UserDto | undefined> {
-    const users: UserDto[] = JSON.parse(
+  getUserById(id: number): Observable<LocalUserDto | undefined> {
+    const users: LocalUserDto[] = JSON.parse(
       localStorage.getItem(this.usersKey) || '[]'
     );
     return of(users.find((u) => u.id === id));
@@ -196,9 +237,9 @@ export class ApiLocalService {
 
   updateUser(
     id: number,
-    user: Partial<UserDto>
-  ): Observable<UserDto | undefined> {
-    const users: UserDto[] = JSON.parse(
+    user: Partial<LocalUserDto>
+  ): Observable<LocalUserDto | undefined> {
+    const users: LocalUserDto[] = JSON.parse(
       localStorage.getItem(this.usersKey) || '[]'
     );
     const index = users.findIndex((u) => u.id === id);
@@ -211,7 +252,7 @@ export class ApiLocalService {
   }
 
   deleteUser(id: number): Observable<void> {
-    let users: UserDto[] = JSON.parse(
+    let users: LocalUserDto[] = JSON.parse(
       localStorage.getItem(this.usersKey) || '[]'
     );
     users = users.filter((u) => u.id !== id);

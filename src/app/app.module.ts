@@ -7,12 +7,17 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 
-import { LoginComponent } from './pages/login/login.component';
 import { routes } from './app.routes';
+import { AppComponent } from './app.component';
+import { environment } from '../environments/environment';
+import { ApiService } from './services/api/api.service';
+import { ApiLocalService } from './services/api-local/api-local.service';
 
 @NgModule({
-  declarations: [LoginComponent],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     ReactiveFormsModule,
@@ -23,7 +28,15 @@ import { routes } from './app.routes';
     MatButtonModule,
     MatIconModule,
     RouterModule.forRoot(routes),
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireAuthModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: ApiService,
+      useClass: environment.useLocalApi ? ApiLocalService : ApiService,
+    },
+  ],
+  bootstrap: [AppComponent],
 })
 export class AppModule {}
