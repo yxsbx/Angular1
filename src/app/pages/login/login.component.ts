@@ -1,16 +1,33 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from '../../services/auth/auth.service';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { CommonModule } from '@angular/common';
+import { AuthService } from '@app/services/auth';
 
 @Component({
   selector: 'app-login',
+  standalone: true,
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+  ],
 })
 export class LoginComponent {
   loginForm: FormGroup;
-  isRegistering: boolean = false;
+  isRegistering = false;
 
   constructor(
     private fb: FormBuilder,
@@ -26,8 +43,12 @@ export class LoginComponent {
   onSubmit(): void {
     if (this.loginForm.valid) {
       const { email, password } = this.loginForm.value;
-      this.authService.login(email, password).subscribe(() => {
-        this.router.navigate(['/dashboard']);
+      this.authService.login(email, password).subscribe((result) => {
+        if (result.success) {
+          this.router.navigate(['/dashboard']);
+        } else {
+          alert(result.error || 'Login failed');
+        }
       });
     }
   }

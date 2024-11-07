@@ -1,14 +1,13 @@
 export const environment = {
   production: false,
-  apiUrl: '',
+  apiUrl: 'https://zenflow-back-end-java.onrender.com',
   firebaseConfig: {
-    apiKey: 'YOUR_DEV_FIREBASE_API_KEY',
-    authDomain: 'YOUR_DEV_FIREBASE_AUTH_DOMAIN',
-    projectId: 'YOUR_DEV_FIREBASE_PROJECT_ID',
-    storageBucket: 'YOUR_DEV_FIREBASE_STORAGE_BUCKET',
-    messagingSenderId: 'YOUR_DEV_FIREBASE_MESSAGING_SENDER_ID',
-    appId: 'YOUR_DEV_FIREBASE_APP_ID',
+    apiKey: (window as any).__env.firebaseApiKey || '',
+    authDomain: (window as any).__env.firebaseAuthDomain || '',
+    projectId: (window as any).__env.firebaseProjectId || '',
+    storageBucket: (window as any).__env.firebaseStorageBucket || '',
+    messagingSenderId: (window as any).__env.firebaseMessagingSenderId || '',
+    appId: (window as any).__env.firebaseAppId || '',
   },
-  useEmulator: true,
-  useLocalApi: true,
+  useLocalApi: false,
 };

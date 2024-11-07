@@ -1,121 +1,108 @@
-import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
+import { Observable, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../environments/environment.prod';
-import { MoodLogDto, NotificationDto, RoutineDto, UserDto } from '../../dtos';
+import { environment } from '@src/environments/environment';
+import { UserDto, LocalUserDto } from '@app/dtos';
+import { LocalStorageUtility, ApiUtility } from '@app/utils';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApiService {
-  private apiUrl = environment.production;
+  private apiUrl = environment.apiUrl;
+  private useLocalApi = environment.useLocalApi;
+  private usersKey = 'users';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    LocalStorageUtility.initializeLocalStorage(this.usersKey, [
+      { id: 1, email: 'admin@gmail.com', password: 'admin' } as LocalUserDto,
+    ]);
+  }
 
-  // Login method for public access
   login(email: string, password: string): Observable<any> {
-    const endpoint = `${this.apiUrl}/auth/login`;
-    return this.http.post(endpoint, { email, password });
-  }
-
-  // CalendarController Methods
-  addEventToCalendar(eventTitle: string, date: string): Observable<any> {
-    const endpoint = `${this.apiUrl}/calendar/add-event`;
-    return this.http.post(endpoint, { eventTitle, date });
-  }
-
-  // MoodLogController Methods
-  getAllMoodLogs(): Observable<MoodLogDto[]> {
-    return this.http.get<MoodLogDto[]>(`${this.apiUrl}/mood-logs`);
-  }
-
-  createMoodLog(moodLog: MoodLogDto): Observable<MoodLogDto> {
-    return this.http.post<MoodLogDto>(`${this.apiUrl}/mood-logs`, moodLog);
-  }
-
-  getMoodLogById(id: number): Observable<MoodLogDto> {
-    return this.http.get<MoodLogDto>(`${this.apiUrl}/mood-logs/${id}`);
-  }
-
-  updateMoodLog(id: number, moodLog: MoodLogDto): Observable<MoodLogDto> {
-    return this.http.put<MoodLogDto>(`${this.apiUrl}/mood-logs/${id}`, moodLog);
-  }
-
-  deleteMoodLog(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/mood-logs/${id}`);
-  }
-
-  // NotificationController Methods
-  getAllNotifications(): Observable<NotificationDto[]> {
-    return this.http.get<NotificationDto[]>(`${this.apiUrl}/notifications`);
-  }
-
-  createNotification(
-    notification: NotificationDto
-  ): Observable<NotificationDto> {
-    return this.http.post<NotificationDto>(
-      `${this.apiUrl}/notifications`,
-      notification
+    return ApiUtility.handleRequest(
+      this.useLocalApi,
+      () => {
+        const users = LocalStorageUtility.getFromLocalStorage<LocalUserDto>(
+          this.usersKey
+        );
+        const user = users.find(
+          (u) => u.email === email && u.password === password
+        );
+        if (user) {
+          localStorage.setItem('user', JSON.stringify(user));
+          return { success: true, user };
+        }
+        return { success: false };
+      },
+      () => this.http.post(`${this.apiUrl}/auth/login`, { email, password }),
+      'Login failed'
     );
   }
 
-  getNotificationById(id: number): Observable<NotificationDto> {
-    return this.http.get<NotificationDto>(`${this.apiUrl}/notifications/${id}`);
+  register(
+    email: string,
+    password: string
+  ): Observable<UserDto | LocalUserDto> {
+    return this.useLocalApi
+      ? of(
+          LocalStorageUtility.addToLocalStorage<LocalUserDto>(this.usersKey, {
+            email,
+            password,
+          })
+        )
+      : this.http.post<UserDto>(`${this.apiUrl}/auth/register`, {
+          email,
+          password,
+        });
   }
 
-  updateNotification(
-    id: number,
-    notification: NotificationDto
-  ): Observable<NotificationDto> {
-    return this.http.put<NotificationDto>(
-      `${this.apiUrl}/notifications/${id}`,
-      notification
-    );
-  }
-
-  deleteNotification(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/notifications/${id}`);
-  }
-
-  // RoutineController Methods
-  getAllRoutines(): Observable<RoutineDto[]> {
-    return this.http.get<RoutineDto[]>(`${this.apiUrl}/routines`);
-  }
-
-  createRoutine(routine: RoutineDto): Observable<RoutineDto> {
-    return this.http.post<RoutineDto>(`${this.apiUrl}/routines`, routine);
-  }
-
-  getRoutineById(id: number): Observable<RoutineDto> {
-    return this.http.get<RoutineDto>(`${this.apiUrl}/routines/${id}`);
-  }
-
-  updateRoutine(id: number, routine: RoutineDto): Observable<RoutineDto> {
-    return this.http.put<RoutineDto>(`${this.apiUrl}/routines/${id}`, routine);
-  }
-
-  deleteRoutine(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/routines/${id}`);
-  }
-
-  // UserController Methods
   getAllUsers(): Observable<UserDto[]> {
-    return this.http.get<UserDto[]>(`${this.apiUrl}/users`);
-  }
-
-  createUser(user: UserDto): Observable<UserDto> {
-    return this.http.post<UserDto>(`${this.apiUrl}/users`, user);
+    return ApiUtility.handleRequest(
+      this.useLocalApi,
+      () => LocalStorageUtility.getFromLocalStorage<UserDto>(this.usersKey),
+      () => this.http.get<UserDto[]>(`${this.apiUrl}/users`)
+    );
   }
 
   getUserById(id: number): Observable<UserDto> {
-    return this.http.get<UserDto>(`${this.apiUrl}/users/${id}`);
+    return ApiUtility.handleRequest(
+      this.useLocalApi,
+      () =>
+        LocalStorageUtility.getItemFromLocalStorage<UserDto>(this.usersKey, id),
+      () => this.http.get<UserDto>(`${this.apiUrl}/users/${id}`),
+      'User not found'
+    );
   }
 
   updateUser(id: number, user: UserDto): Observable<UserDto> {
-    return this.http.put<UserDto>(`${this.apiUrl}/users/${id}`, user);
+    return ApiUtility.handleRequest(
+      this.useLocalApi,
+      () =>
+        LocalStorageUtility.updateInLocalStorage<UserDto>(
+          this.usersKey,
+          id,
+          user
+        ),
+      () => this.http.put<UserDto>(`${this.apiUrl}/users/${id}`, user),
+      'Failed to update user'
+    );
   }
 
   deleteUser(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/users/${id}`);
+    return ApiUtility.handleRequest<void>(
+      this.useLocalApi,
+      () => {
+        const deleted = LocalStorageUtility.deleteFromLocalStorage<UserDto>(
+          this.usersKey,
+          id
+        );
+        if (!deleted) {
+          throw new Error('Failed to delete user');
+        }
+      },
+      () => this.http.delete<void>(`${this.apiUrl}/users/${id}`),
+      'Failed to delete user'
+    );
   }
 }

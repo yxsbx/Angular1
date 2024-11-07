@@ -9,6 +9,5 @@ export const environment = {
     messagingSenderId: '%%NG_FIREBASE_MESSAGING_SENDER_ID%%',
     appId: '%%NG_FIREBASE_APP_ID%%',
   },
-  useEmulator: false,
   useLocalApi: false,
 };

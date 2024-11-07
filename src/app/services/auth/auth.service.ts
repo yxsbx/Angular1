@@ -1,44 +1,49 @@
-import { Injectable } from '@angular/core';
-import { Observable, from, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Injectable, inject } from '@angular/core';
+import { Observable, of, from } from 'rxjs';
+import { map, take } from 'rxjs/operators';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { environment } from '../../../environments/environment';
-import { ApiLocalService } from '../api-local/api-local.service';
-import { ApiService } from '../api/api.service';
+import { environment } from '@src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
+  private afAuth = inject(AngularFireAuth);
   private useLocalStorage: boolean = environment.useLocalApi;
-
-  constructor(
-    private apiService: ApiService,
-    private apiLocalService: ApiLocalService,
-    private afAuth: AngularFireAuth
-  ) {}
 
   login(email: string, password: string): Observable<any> {
     if (this.useLocalStorage) {
-      return this.apiLocalService.getUserByEmail(email).pipe(
-        map((user: any) => {
-          if (user && user.password === password) {
-            return { success: true, user };
-          } else {
-            return { success: false };
-          }
-        })
-      );
+      const storedUser = JSON.parse(localStorage.getItem('users') || '{}');
+      if (storedUser.email === email && storedUser.password === password) {
+        localStorage.setItem('user', JSON.stringify(storedUser));
+        return of({ success: true, user: storedUser });
+      } else {
+        return of({ success: false, error: 'Invalid credentials' });
+      }
     } else {
-      return from(this.afAuth.signInWithEmailAndPassword(email, password));
+      return from(this.afAuth.signInWithEmailAndPassword(email, password)).pipe(
+        map((userCredential) => ({
+          success: true,
+          user: userCredential.user,
+        }))
+      );
     }
   }
 
   register(email: string, password: string): Observable<any> {
     if (this.useLocalStorage) {
-      return this.apiLocalService.createUser({ email, password });
+      const newUser = { email, password };
+      localStorage.setItem('user', JSON.stringify(newUser));
+      return of({ success: true, user: newUser });
     } else {
-      return from(this.afAuth.createUserWithEmailAndPassword(email, password));
+      return from(
+        this.afAuth.createUserWithEmailAndPassword(email, password)
+      ).pipe(
+        map((userCredential) => ({
+          success: true,
+          user: userCredential.user,
+        }))
+      );
     }
   }
 
@@ -50,13 +55,25 @@ export class AuthService {
     }
   }
 
-  getUser(): Observable<any> {
-    return this.useLocalStorage ? of(null) : this.afAuth.authState;
+  isAuthenticated(): Observable<boolean> {
+    if (this.useLocalStorage) {
+      return of(!!localStorage.getItem('user'));
+    } else {
+      return this.afAuth.authState.pipe(
+        map((user) => !!user),
+        take(1)
+      );
+    }
   }
 
-  isAuthenticated(): boolean {
-    return this.useLocalStorage
-      ? !!localStorage.getItem('user')
-      : !!this.afAuth.authState;
+  getUser(): Observable<any> {
+    if (this.useLocalStorage) {
+      const user = localStorage.getItem('user')
+        ? JSON.parse(localStorage.getItem('user')!)
+        : null;
+      return of(user);
+    } else {
+      return this.afAuth.authState;
+    }
   }
 }

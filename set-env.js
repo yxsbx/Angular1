@@ -1,5 +1,5 @@
 const fs = require("fs");
-require("dotenv").config({ path: ".env.local" });
+require("dotenv").config({ path: ".env" });
 
 const envVariables = `
   (function(window) {
@@ -14,4 +14,4 @@ const envVariables = `
   })(this);
 `;
 
-fs.writeFileSync("./src/runtime.js", envVariables);
+fs.writeFileSync("./src/assets/runtime.js", envVariables);

@@ -7,7 +7,8 @@
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
-          "style": "scss"
+          "style": "scss",
+          "standalone": true
         }
       },
       "root": "",
@@ -72,7 +73,22 @@
                 }
               ],
               "namedChunks": true,
-              "aot": false
+              "aot": false,
+              "buildOptimizer": false
+            },
+            "local": {
+              "optimization": false,
+              "sourceMap": true,
+              "extractLicenses": false,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.local.ts"
+                }
+              ],
+              "namedChunks": true,
+              "aot": false,
+              "buildOptimizer": false
             }
           },
           "defaultConfiguration": "production"
@@ -88,6 +104,9 @@
             },
             "development": {
               "buildTarget": "zenflow-front-end-angular:build:development"
+            },
+            "local": {
+              "buildTarget": "zenflow-front-end-angular:build:local"
             }
           },
           "defaultConfiguration": "development"
