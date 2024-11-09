@@ -1,14 +1,26 @@
 <mat-toolbar color="accent">
-  <div class="logo-container">
+  <div class="logo-container flex items-center">
     <a routerLink="/routine">
       <img src="assets/logo.png" alt="ZenFlow Logo" class="logo" />
     </a>
+    <span class="title ml-4 font-bold text-white">ZenFlow</span>
   </div>
-  <span class="title">ZenFlow</span>
-  <mat-nav-list class="nav-links">
-    <a mat-list-item routerLink="/dashboard">Dashboard</a>
-    <a mat-list-item routerLink="/routine">Routine</a>
-  </mat-nav-list>
-</mat-toolbar>
 
+  <mat-nav-list class="nav-links flex-grow flex justify-center space-x-4">
+    <a mat-button routerLink="/dashboard" class="text-white">Dashboard</a>
+    <a mat-button routerLink="/routine" class="text-white">Routine</a>
+  </mat-nav-list>
+
+  <div class="user-actions flex items-center">
+    <button
+      *ngIf="isAuthenticated | async"
+      mat-raised-button
+      color="warn"
+      (click)="logout()"
+      class="ml-4"
+    >
+      Logout
+    </button>
+  </div>
+</mat-toolbar>
 <router-outlet></router-outlet>

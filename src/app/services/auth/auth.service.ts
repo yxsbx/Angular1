@@ -2,7 +2,6 @@ import { Injectable, inject } from '@angular/core';
 import { Observable, from } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { environment } from '@src/environments/environment';
 
 /**
  * AuthService handles authentication operations, including login, registration,

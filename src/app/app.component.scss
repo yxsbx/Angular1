@@ -1,9 +1,9 @@
 :host {
-  @apply block;
+  @apply block min-h-screen bg-slate-100;
 }
 
 mat-toolbar {
-  @apply flex justify-between items-center px-4 py-2 bg-gray-800 text-white;
+  @apply flex justify-between gap-6 items-center px-4 py-2 bg-gray-800 text-white;
 }
 
 .logo-container {
@@ -19,13 +19,14 @@ mat-toolbar {
 }
 
 .title {
-  @apply font-bold text-lg;
+  @apply font-bold text-lg text-white ml-2;
 }
 
-.nav-links {
-  @apply flex gap-6;
+.nav-links a {
+  font-weight: 500;
+  font-size: 1rem;
+}
 
-  a {
-    @apply text-gray-300 hover:text-white;
-  }
+.user-actions {
+  margin-right: 1rem;
 }
