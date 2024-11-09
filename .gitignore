@@ -55,4 +55,3 @@ Thumbs.db
 .env
 .vercel
 .env*.local
-src/assets/runtime.js
