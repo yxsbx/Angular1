@@ -20,7 +20,7 @@ export class MoodLogService {
    * @returns An Observable with a list of MoodLogDto representing all mood logs.
    */
   getAllMoodLogs(): Observable<MoodLogDto[]> {
-    return this.http.get<MoodLogDto[]>(`${this.apiUrl}/mood-logs`);
+    return this.http.get<MoodLogDto[]>(`${this.apiUrl}/api/mood-logs`);
   }
 
   /**
@@ -29,7 +29,7 @@ export class MoodLogService {
    * @returns An Observable with the newly created MoodLogDto.
    */
   createMoodLog(moodLog: MoodLogDto): Observable<MoodLogDto> {
-    return this.http.post<MoodLogDto>(`${this.apiUrl}/mood-logs`, moodLog);
+    return this.http.post<MoodLogDto>(`${this.apiUrl}/api/mood-logs`, moodLog);
   }
 
   /**
@@ -38,7 +38,7 @@ export class MoodLogService {
    * @returns An Observable with the MoodLogDto of the specified mood log.
    */
   getMoodLogById(id: number): Observable<MoodLogDto> {
-    return this.http.get<MoodLogDto>(`${this.apiUrl}/mood-logs/${id}`);
+    return this.http.get<MoodLogDto>(`${this.apiUrl}/api/mood-logs/${id}`);
   }
 
   /**
@@ -48,7 +48,10 @@ export class MoodLogService {
    * @returns An Observable with the updated MoodLogDto.
    */
   updateMoodLog(id: number, moodLog: MoodLogDto): Observable<MoodLogDto> {
-    return this.http.put<MoodLogDto>(`${this.apiUrl}/mood-logs/${id}`, moodLog);
+    return this.http.put<MoodLogDto>(
+      `${this.apiUrl}/api/mood-logs/${id}`,
+      moodLog
+    );
   }
 
   /**
@@ -57,6 +60,6 @@ export class MoodLogService {
    * @returns An Observable that completes when the mood log is deleted.
    */
   deleteMoodLog(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/mood-logs/${id}`);
+    return this.http.delete<void>(`${this.apiUrl}/api/mood-logs/${id}`);
   }
 }

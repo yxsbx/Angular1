@@ -1,0 +1,8 @@
+{
+  "/api": {
+    "target": "https://zenflow-back-end-java.onrender.com",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  }
+}

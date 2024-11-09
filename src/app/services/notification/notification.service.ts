@@ -20,7 +20,7 @@ export class NotificationService {
    * @returns An Observable with a list of NotificationDto representing all notifications.
    */
   getAllNotifications(): Observable<NotificationDto[]> {
-    return this.http.get<NotificationDto[]>(`${this.apiUrl}/notifications`);
+    return this.http.get<NotificationDto[]>(`${this.apiUrl}/api/notifications`);
   }
 
   /**
@@ -32,7 +32,7 @@ export class NotificationService {
     notification: NotificationDto
   ): Observable<NotificationDto> {
     return this.http.post<NotificationDto>(
-      `${this.apiUrl}/notifications`,
+      `${this.apiUrl}/api/notifications`,
       notification
     );
   }
@@ -43,7 +43,9 @@ export class NotificationService {
    * @returns An Observable with the NotificationDto of the specified notification.
    */
   getNotificationById(id: number): Observable<NotificationDto> {
-    return this.http.get<NotificationDto>(`${this.apiUrl}/notifications/${id}`);
+    return this.http.get<NotificationDto>(
+      `${this.apiUrl}/api/notifications/${id}`
+    );
   }
 
   /**
@@ -57,7 +59,7 @@ export class NotificationService {
     notification: NotificationDto
   ): Observable<NotificationDto> {
     return this.http.put<NotificationDto>(
-      `${this.apiUrl}/notifications/${id}`,
+      `${this.apiUrl}/api/notifications/${id}`,
       notification
     );
   }
@@ -68,6 +70,6 @@ export class NotificationService {
    * @returns An Observable that completes when the notification is deleted.
    */
   deleteNotification(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/notifications/${id}`);
+    return this.http.delete<void>(`${this.apiUrl}/api/notifications/${id}`);
   }
 }

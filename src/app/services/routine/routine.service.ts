@@ -20,7 +20,7 @@ export class RoutineService {
    * @returns An Observable with a list of RoutineDto representing all routines.
    */
   getAllRoutines(): Observable<RoutineDto[]> {
-    return this.http.get<RoutineDto[]>(`${this.apiUrl}/routines`);
+    return this.http.get<RoutineDto[]>(`${this.apiUrl}/api/routines`);
   }
 
   /**
@@ -29,7 +29,7 @@ export class RoutineService {
    * @returns An Observable with the RoutineDto of the specified routine.
    */
   getRoutineById(id: number): Observable<RoutineDto> {
-    return this.http.get<RoutineDto>(`${this.apiUrl}/routines/${id}`);
+    return this.http.get<RoutineDto>(`${this.apiUrl}/api/routines/${id}`);
   }
 
   /**
@@ -38,7 +38,7 @@ export class RoutineService {
    * @returns An Observable with the newly created RoutineDto.
    */
   createRoutine(routine: RoutineDto): Observable<RoutineDto> {
-    return this.http.post<RoutineDto>(`${this.apiUrl}/routines`, routine);
+    return this.http.post<RoutineDto>(`${this.apiUrl}/api/routines`, routine);
   }
 
   /**
@@ -48,7 +48,10 @@ export class RoutineService {
    * @returns An Observable with the updated RoutineDto.
    */
   updateRoutine(id: number, routine: RoutineDto): Observable<RoutineDto> {
-    return this.http.put<RoutineDto>(`${this.apiUrl}/routines/${id}`, routine);
+    return this.http.put<RoutineDto>(
+      `${this.apiUrl}/api/routines/${id}`,
+      routine
+    );
   }
 
   /**
@@ -57,6 +60,6 @@ export class RoutineService {
    * @returns An Observable that completes when the routine is deleted.
    */
   deleteRoutine(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/routines/${id}`);
+    return this.http.delete<void>(`${this.apiUrl}/api/routines/${id}`);
   }
 }

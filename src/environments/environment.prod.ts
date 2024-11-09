@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  apiUrl: '%%NG_APP_API_URL%%',
+  apiUrl: 'https://zenflow-back-end-java.onrender.com',
   firebaseConfig: {
     apiKey: '%%NG_FIREBASE_API_KEY%%',
     authDomain: '%%NG_FIREBASE_AUTH_DOMAIN%%',

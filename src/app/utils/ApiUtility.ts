@@ -29,7 +29,7 @@ export class ApiUtility {
     apiUrl: string,
     id: number
   ): Observable<T> {
-    return http.get<T>(`${apiUrl}/${id}`);
+    return http.get<T>(`${apiUrl}/api/${id}`);
   }
 
   static update<T>(
@@ -38,7 +38,7 @@ export class ApiUtility {
     id: number,
     item: T
   ): Observable<T> {
-    return http.put<T>(`${apiUrl}/${id}`, item);
+    return http.put<T>(`${apiUrl}/api/${id}`, item);
   }
 
   static delete(
@@ -46,6 +46,6 @@ export class ApiUtility {
     apiUrl: string,
     id: number
   ): Observable<void> {
-    return http.delete<void>(`${apiUrl}/${id}`);
+    return http.delete<void>(`${apiUrl}/api/${id}`);
   }
 }

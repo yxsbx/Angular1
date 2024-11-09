@@ -3,13 +3,13 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start:dev": "node set-env.js && ng serve --configuration development",
+    "start:dev": "node set-env.js && ng serve --proxy-config src/proxy.conf.json --configuration development",
     "start:prod": "ng serve --configuration production",
     "build": "node set-env.js && ng build",
     "build:dev": "node set-env.js && ng build --configuration development",
     "build:prod": "ng build --configuration production",
     "watch": "ng build --watch --configuration development",
-    "serve:ssr:zenflow-front-end-angular": "node dist/zenflow-front-end-angular/server/server.mjs"
+    "serve:ssr": "node dist/zenflow-front-end-angular/server/server.mjs"
   },
   "private": true,
   "dependencies": {

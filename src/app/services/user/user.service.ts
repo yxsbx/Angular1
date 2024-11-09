@@ -29,7 +29,7 @@ export class UserService {
    * @returns An Observable with the UserDto of the specified user.
    */
   getUserById(id: number): Observable<UserDto> {
-    return this.http.get<UserDto>(`${this.apiUrl}/users/${id}`);
+    return this.http.get<UserDto>(`${this.apiUrl}/api/users/${id}`);
   }
 
   /**
@@ -39,7 +39,7 @@ export class UserService {
    * @returns An Observable with the updated user's UserDto.
    */
   updateUser(id: number, user: UserDto): Observable<UserDto> {
-    return this.http.put<UserDto>(`${this.apiUrl}/users/${id}`, user);
+    return this.http.put<UserDto>(`${this.apiUrl}/api/users/${id}`, user);
   }
 
   /**
@@ -48,6 +48,6 @@ export class UserService {
    * @returns An Observable that completes when the user is deleted.
    */
   deleteUser(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/users/${id}`);
+    return this.http.delete<void>(`${this.apiUrl}/api/users/${id}`);
   }
 }

@@ -26,7 +26,7 @@ export class CalendarService {
     startDateTime: string,
     endDateTime: string
   ): Observable<string> {
-    return this.http.post<string>(`${this.apiUrl}/calendar/add-event`, {
+    return this.http.post<string>(`${this.apiUrl}/api/calendar/add-event`, {
       eventTitle,
       startDateTime,
       endDateTime,

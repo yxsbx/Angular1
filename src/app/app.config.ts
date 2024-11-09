@@ -18,8 +18,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FIREBASE_OPTIONS } from '@angular/fire/compat';
+import { MatNativeDateModule } from '@angular/material/core';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -34,7 +36,9 @@ export const appConfig: ApplicationConfig = {
       MatButtonModule,
       MatIconModule,
       FormsModule,
-      ReactiveFormsModule
+      ReactiveFormsModule,
+      MatDatepickerModule,
+      MatNativeDateModule
     ),
     AuthService,
     UserService,
