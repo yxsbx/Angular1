@@ -57,10 +57,7 @@ export class AuthService {
    * @returns An Observable that emits a boolean indicating the authentication status.
    */
   isAuthenticated(): Observable<boolean> {
-    return this.afAuth.authState.pipe(
-      map((user) => !!user),
-      take(1)
-    );
+    return this.afAuth.authState.pipe(map((user) => !!user));
   }
 
   /**

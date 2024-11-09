@@ -1,14 +1,19 @@
 <mat-toolbar color="accent">
-  <div class="logo-container flex items-center">
-    <a routerLink="/routine">
-      <img src="assets/logo.png" alt="ZenFlow Logo" class="logo" />
-    </a>
+  <div
+    class="logo-container flex items-center cursor-pointer"
+    routerLink="/routine"
+  >
+    <img src="assets/logo.png" alt="ZenFlow Logo" class="logo" />
     <span class="title ml-4 font-bold text-white">ZenFlow</span>
   </div>
 
   <mat-nav-list class="nav-links flex-grow flex justify-center space-x-4">
-    <a mat-button routerLink="/dashboard" class="text-white">Dashboard</a>
-    <a mat-button routerLink="/routine" class="text-white">Routine</a>
+    <a mat-button routerLink="/dashboard" class="text-white flex items-center">
+      <mat-icon class="mr-2">dashboard</mat-icon> Dashboard
+    </a>
+    <a mat-button routerLink="/routine" class="text-white flex items-center">
+      <mat-icon class="mr-2">event_note</mat-icon> Routine
+    </a>
   </mat-nav-list>
 
   <div class="user-actions flex items-center">
@@ -17,10 +22,11 @@
       mat-raised-button
       color="warn"
       (click)="logout()"
-      class="ml-4"
+      class="ml-4 flex items-center"
     >
-      Logout
+      <mat-icon class="mr-2">logout</mat-icon> Logout
     </button>
   </div>
 </mat-toolbar>
+
 <router-outlet></router-outlet>
