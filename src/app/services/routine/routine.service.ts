@@ -1,80 +1,62 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of, throwError } from 'rxjs';
 import { environment } from '@src/environments/environment';
-import { RoutineDto } from '@app//dtos';
-import { ApiUtility, LocalStorageUtility } from '@app//utils';
+import { RoutineDto } from '@app/dtos';
 
+/**
+ * RoutineService handles CRUD operations for routines.
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class RoutineService {
-  private apiUrl = `${environment.apiUrl}/routines`;
-  private routinesKey = 'routines';
-  private useLocalApi = environment.useLocalApi;
+  private apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
 
+  /**
+   * Retrieves all routines.
+   * @returns An Observable with a list of RoutineDto representing all routines.
+   */
   getAllRoutines(): Observable<RoutineDto[]> {
-    return this.useLocalApi
-      ? of(
-          LocalStorageUtility.getFromLocalStorage<RoutineDto>(this.routinesKey)
-        )
-      : ApiUtility.getAll<RoutineDto>(this.http, this.apiUrl);
+    return this.http.get<RoutineDto[]>(`${this.apiUrl}/routines`);
   }
 
-  createRoutine(routine: RoutineDto): Observable<RoutineDto> {
-    return this.useLocalApi
-      ? of(
-          LocalStorageUtility.addToLocalStorage<RoutineDto>(
-            this.routinesKey,
-            routine
-          )
-        )
-      : ApiUtility.create(this.http, this.apiUrl, routine);
-  }
-
+  /**
+   * Retrieves a specific routine by ID.
+   * @param id - The routine's ID
+   * @returns An Observable with the RoutineDto of the specified routine.
+   */
   getRoutineById(id: number): Observable<RoutineDto> {
-    if (this.useLocalApi) {
-      const routine = LocalStorageUtility.getItemFromLocalStorage<RoutineDto>(
-        this.routinesKey,
-        id
-      );
-      return routine
-        ? of(routine)
-        : throwError(() => new Error('Routine not found'));
-    } else {
-      return ApiUtility.getById<RoutineDto>(this.http, this.apiUrl, id);
-    }
+    return this.http.get<RoutineDto>(`${this.apiUrl}/routines/${id}`);
   }
 
+  /**
+   * Creates a new routine.
+   * @param routine - The data for the new routine to be created
+   * @returns An Observable with the newly created RoutineDto.
+   */
+  createRoutine(routine: RoutineDto): Observable<RoutineDto> {
+    return this.http.post<RoutineDto>(`${this.apiUrl}/routines`, routine);
+  }
+
+  /**
+   * Updates a specific routine.
+   * @param id - The routine's ID
+   * @param routine - The updated routine data
+   * @returns An Observable with the updated RoutineDto.
+   */
   updateRoutine(id: number, routine: RoutineDto): Observable<RoutineDto> {
-    if (this.useLocalApi) {
-      const updatedRoutine =
-        LocalStorageUtility.updateInLocalStorage<RoutineDto>(
-          this.routinesKey,
-          id,
-          routine
-        );
-      return updatedRoutine
-        ? of(updatedRoutine)
-        : throwError(() => new Error('Failed to update routine'));
-    } else {
-      return ApiUtility.update(this.http, this.apiUrl, id, routine);
-    }
+    return this.http.put<RoutineDto>(`${this.apiUrl}/routines/${id}`, routine);
   }
 
+  /**
+   * Deletes a specific routine.
+   * @param id - The routine's ID
+   * @returns An Observable that completes when the routine is deleted.
+   */
   deleteRoutine(id: number): Observable<void> {
-    if (this.useLocalApi) {
-      const deleted = LocalStorageUtility.deleteFromLocalStorage<RoutineDto>(
-        this.routinesKey,
-        id
-      );
-      return deleted
-        ? of()
-        : throwError(() => new Error('Failed to delete routine'));
-    } else {
-      return ApiUtility.delete(this.http, this.apiUrl, id);
-    }
+    return this.http.delete<void>(`${this.apiUrl}/routines/${id}`);
   }
 }

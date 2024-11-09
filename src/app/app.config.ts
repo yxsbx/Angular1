@@ -5,7 +5,15 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideAuth, getAuth } from '@angular/fire/auth';
 import { environment } from '../environments/environment';
 import { routes } from './app.routes';
-import { ApiService, AuthService } from './services';
+import {
+  ApiService,
+  AuthService,
+  UserService,
+  RoutineService,
+  CalendarService,
+  NotificationService,
+  MoodLogService,
+} from './services';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -29,6 +37,11 @@ export const appConfig: ApplicationConfig = {
       ReactiveFormsModule
     ),
     AuthService,
+    UserService,
+    RoutineService,
+    CalendarService,
+    NotificationService,
+    MoodLogService,
     {
       provide: ApiService,
       useClass: ApiService,

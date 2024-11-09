@@ -5,10 +5,9 @@
     "ng": "ng",
     "start:dev": "node set-env.js && ng serve --configuration development",
     "start:prod": "ng serve --configuration production",
-    "start:local": "ng serve --configuration local",
+    "build": "node set-env.js && ng build",
     "build:dev": "node set-env.js && ng build --configuration development",
     "build:prod": "ng build --configuration production",
-    "build:local": "ng build --configuration local",
     "watch": "ng build --watch --configuration development",
     "serve:ssr:zenflow-front-end-angular": "node dist/zenflow-front-end-angular/server/server.mjs"
   },
