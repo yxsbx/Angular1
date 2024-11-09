@@ -1,9 +1,11 @@
 export interface Routine {
   id: number;
   userId: number;
-  date: string;
+  startDateTime: string;
+  endDateTime: string;
   goals: string;
   completed: boolean;
+  sendToCalendar: boolean;
   createdAt: string;
   updatedAt: string;
   deletedAt?: string | null;

@@ -1,23 +1,46 @@
-<div class="flex items-center justify-center h-screen bg-gray-50">
-  <div class="w-full max-w-md p-8 space-y-6 bg-white shadow-lg rounded-lg">
-    <h2 class="text-2xl font-bold text-center text-gray-700">
-      {{ isRegistering ? "Create Account" : "Login" }}
-    </h2>
+<div class="flex-col">
+  <div
+    class="w-full max-w-md px-8 py-6 text-center bg-white shadow-lg rounded-lg transform transition-all duration-500 hover:shadow-2xl"
+  >
+    <div class="text-3xl pb-1 font-bold align-middle text-center">
+      <h2 class="text-blue-800">
+        <mat-icon class="mr-2 pt-1 text-blue-800">account_circle</mat-icon>
+        {{ isRegistering ? "Create Account" : "Login" }}
+      </h2>
+    </div>
 
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
       <mat-form-field appearance="outline" class="w-full">
-        <mat-label>Email</mat-label>
-        <input matInput type="email" formControlName="email" />
+        <div class="flex items-center">
+          <mat-icon matPrefix class="mx-4 text-blue-800">email</mat-icon>
+          <input
+            matInput
+            formControlName="email"
+            type="email"
+            required
+            placeholder="Email"
+            class="pl-2 outline-none w-full"
+          />
+        </div>
         <mat-error *ngIf="loginForm.get('email')?.invalid">
-          Please enter a valid email
+          Please enter a valid email.
         </mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="w-full">
-        <mat-label>Password</mat-label>
-        <input matInput type="password" formControlName="password" />
+        <div class="flex items-center">
+          <mat-icon matPrefix class="mx-4 text-blue-800">lock</mat-icon>
+          <input
+            matInput
+            formControlName="password"
+            type="password"
+            required
+            placeholder="Password"
+            class="pl-2 outline-none w-full"
+          />
+        </div>
         <mat-error *ngIf="loginForm.get('password')?.invalid">
-          Password must be at least 6 characters
+          Password is required.
         </mat-error>
       </mat-form-field>
 
@@ -25,22 +48,24 @@
         mat-raised-button
         color="primary"
         type="submit"
-        class="w-full py-2 mt-4"
+        class="w-full mt-3"
       >
+        <mat-icon class="mr-2">{{
+          isRegistering ? "person_add" : "login"
+        }}</mat-icon>
         {{ isRegistering ? "Register" : "Login" }}
       </button>
     </form>
-
     <button
       mat-button
-      color="accent"
       (click)="toggleMode()"
-      class="w-full text-sm underline"
+      class="w-full mt-2 text-blue-600 hover:text-blue-800"
     >
+      <mat-icon class="mr-2 align-middle">{{
+        isRegistering ? "login" : "person_add"
+      }}</mat-icon>
       {{
-        isRegistering
-          ? "Already have an account? Login"
-          : "Don't have an account? Register"
+        isRegistering ? "Already have an account? Login" : "Create an account"
       }}
     </button>
   </div>

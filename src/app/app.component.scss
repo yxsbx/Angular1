@@ -1,0 +1,32 @@
+:host {
+  @apply block min-h-screen bg-slate-100;
+}
+
+mat-toolbar {
+  @apply flex justify-between gap-6 items-center px-4 py-2 bg-gray-800 text-white;
+}
+
+.logo-container {
+  @apply flex items-center cursor-pointer;
+
+  a {
+    @apply flex items-center no-underline text-inherit hover:text-gray-300;
+  }
+}
+
+.logo {
+  @apply h-8 mr-4;
+}
+
+.title {
+  @apply font-bold text-lg text-white ml-2;
+}
+
+.nav-links a {
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.user-actions {
+  margin-right: 1rem;
+}
