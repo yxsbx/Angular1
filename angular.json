@@ -25,6 +25,8 @@
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": ["zone.js"],
+            "main": "src/main.ts",
+            "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": ["src/favicon.ico", "src/assets", "src/runtime.js"],
@@ -33,10 +35,11 @@
               "src/styles.scss"
             ],
             "scripts": []
+            "scripts": []
           },
           "configurations": {
             "production": {
-              "budgets": [
+              "fileReplacements": [
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
@@ -90,6 +93,9 @@
             },
             "development": {
               "buildTarget": "zenflow-front-end-angular:build:development"
+            },
+            "local": {
+              "buildTarget": "zenflow-front-end-angular:build:local"
             }
           },
           "defaultConfiguration": "development"

@@ -23,8 +23,6 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 - Endpoint: /calendar/add-event
 - Parameters: eventTitle (String), date (String)
 
----
-
 ## MoodLogController
 
 ### Get All Mood Logs
@@ -53,8 +51,6 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 
 - Method: **DELETE**
 - Endpoint: /mood-logs/{id}
-
----
 
 ## NotificationController
 
@@ -85,8 +81,6 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 - Method: **DELETE**
 - Endpoint: /notifications/{id}
 
----
-
 ## RoutineController
 
 ### Get All Routines
@@ -116,8 +110,6 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 - Method: **DELETE**
 - Endpoint: /routines/{id}
 
----
-
 ## UserController
 
 ### Get All Users
@@ -146,8 +138,6 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 
 - Method: **DELETE**
 - Endpoint: /users/{id}
-
----
 
 ## Branching Strategy
 
@@ -203,3 +193,5 @@ To ensure quality and consistency, we use a pull request (PR) workflow with mand
 - **Commit Messages**: Use clear, concise commit messages summarizing changes.
 - **PR Reviews**: All PRs require at least one review and approval.
 - **Testing**: Ensure local testing before PR submission.
+
+---
