@@ -1,0 +1,9 @@
+<div class="flex items-center justify-around bg-gray-100 h-12 text-lg">
+  <span *ngFor="let weekday of weekdays">{{ weekday }}</span>
+</div>
+
+<mat-grid-list cols="7" rowHeight="1:1" class="calendar-grid">
+  <mat-grid-tile *ngFor="let day of monthDays">
+    <div *ngIf="day" class="day">{{ day }}</div>
+  </mat-grid-tile>
+</mat-grid-list>

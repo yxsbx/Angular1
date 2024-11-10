@@ -1,0 +1,7 @@
+<div @fadeInOut class="z-10">
+  <mat-card class="demo-inline-calendar-card w-64 min-w-full md:min-w-0">
+    <mat-calendar [(selected)]="selected"></mat-calendar>
+  </mat-card>
+  <p>Selected month: {{ selectedMonth() }}</p>
+  <p>Selected year: {{ selectedYear() }}</p>
+</div>
