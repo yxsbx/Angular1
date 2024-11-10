@@ -38,13 +38,19 @@ export class DaysComponent implements OnChanges {
   weekdays: string[] = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   monthDays: { day: number | null; weekday: string | null }[] = [];
 
-  tasksByDay: { [key: string]: string[] } = {
-    '2024-11-01': ['Task 1', 'Task 2'],
-    '2024-11-03': ['Task 1', 'Task 2'],
-    '2024-11-15': ['Task 1'],
-    '2024-11-22': ['Task 1', 'Task 2', 'Task 3'],
-    '2024-10-22': ['Task 1', 'Task 2', 'Task 3', 'Task 4', 'Task 5'],
-    '2024-11-10': ['Task 1', 'Task 2', 'Task 3', 'teste1', 'teste2'],
+  tasksByDay: {
+    [key: string]: { title: string; startDate: string; endDate: string }[];
+  } = {
+    '2024-11-01': [
+      { title: 'Task A', startDate: '2024-11-01', endDate: '2024-11-02' },
+      { title: 'Task B', startDate: '2024-11-01', endDate: '2024-11-03' },
+    ],
+    '2024-11-03': [
+      { title: 'Task C', startDate: '2024-11-05', endDate: '2024-11-06' },
+    ],
+    '2024-11-10': [
+      { title: 'Task D', startDate: '2024-11-10', endDate: '2024-11-12' },
+    ],
   };
 
   isToday(day: number | null): boolean {
@@ -57,8 +63,9 @@ export class DaysComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['month'] || changes['year']) {
+    if (changes['month'] || changes['year'] || changes['tasksByDay']) {
       this.fillCalendar();
+      this.generateTasksForCalendar();
     }
   }
 
@@ -83,23 +90,58 @@ export class DaysComponent implements OnChanges {
       const formattedMonth = (this.month + 1).toString().padStart(2, '0');
 
       const key = `${this.year}-${formattedMonth}-${formattedDay}`;
-      const tasks = this.tasksByDay[key] || 'No tasks this day';
-
-      alert(
-        `YEAR: ${this.year}, MONTH: ${
-          this.month + 1
-        }, DAY: ${day}, WEEKDAY: ${weekday}\n\nTASKS:\n${tasks}`
-      );
+      const tasks = this.tasksByDay[key];
+      if (tasks && tasks.length > 0) {
+        const taskTitles = tasks
+          .map(
+            (task) =>
+              `${task.title} - START: ${task.startDate} - END: ${task.endDate}\n`
+          )
+          .join('');
+        alert(
+          `YEAR: ${this.year}, MONTH: ${
+            this.month + 1
+          }, DAY: ${day}, WEEKDAY: ${weekday}\n\nTASKS:\n${taskTitles}`
+        );
+      } else {
+        alert(
+          `YEAR: ${this.year}, MONTH: ${
+            this.month + 1
+          }, DAY: ${day}, WEEKDAY: ${weekday}\n\nTASKS:\nNo tasks this day`
+        );
+      }
     }
   }
 
-  generateDateKey(day: number | null): string {
-    if (!day) return '';
-    const year = this.year;
-    const month = this.month + 1;
-    const dayOfMonth = day;
-    return `${year}-${month < 10 ? '0' + month : month}-${
-      dayOfMonth < 10 ? '0' + dayOfMonth : dayOfMonth
-    }`;
+  generateDateKey(day: number): string {
+    const formattedDay = day.toString().padStart(2, '0');
+    const formattedMonth = (this.month + 1).toString().padStart(2, '0');
+    return `${this.year}-${formattedMonth}-${formattedDay}`;
+  }
+
+  expandedTasksByDay: {
+    [key: string]: { title: string; startDate: string; endDate: string }[];
+  } = {};
+  generateTasksForCalendar(): void {
+    const allTasks: {
+      [key: string]: { title: string; startDate: string; endDate: string }[];
+    } = {};
+
+    Object.keys(this.tasksByDay).forEach((key) => {
+      this.tasksByDay[key].forEach((task) => {
+        const start = new Date(task.startDate);
+        const end = new Date(task.endDate);
+
+        for (let date = start; date <= end; date.setDate(date.getDate() + 1)) {
+          const formattedDate = date.toISOString().split('T')[0];
+          if (!allTasks[formattedDate]) {
+            allTasks[formattedDate] = [];
+          }
+          allTasks[formattedDate].push(task);
+        }
+      });
+    });
+
+    this.expandedTasksByDay = allTasks;
   }
 }

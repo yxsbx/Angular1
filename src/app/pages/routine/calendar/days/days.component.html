@@ -23,7 +23,8 @@
         [month]="month"
         [year]="year"
         [scrolled]="scrolled"
-        [tasks]="tasksByDay[generateDateKey(dayObj.day)] || []"
+        [tasks]="expandedTasksByDay[generateDateKey(dayObj.day)] || []"
+        [maxVisibleTasks]="2"
       ></app-show-tasks>
     </div>
   </mat-grid-tile>

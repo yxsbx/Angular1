@@ -1,6 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+interface Task {
+  title: string;
+  startDate: string;
+  endDate: string;
+}
 @Component({
   selector: 'app-show-tasks',
   standalone: true,
@@ -9,7 +14,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './show-tasks.component.scss',
 })
 export class ShowTasksComponent {
-  @Input() tasks: string[] = [];
+  @Input() tasks: Task[] = [];
   @Input() scrolled: boolean = false;
   @Input() month: number = 0;
   @Input() year: number = 0;
