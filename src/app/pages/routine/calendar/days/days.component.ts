@@ -10,6 +10,12 @@ import { CommonModule } from '@angular/common';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { ShowTasksComponent } from './show-tasks/show-tasks.component';
 
+interface Task {
+  title: string;
+  startDate: string;
+  endDate: string;
+}
+
 @Component({
   selector: 'app-days',
   standalone: true,
@@ -41,6 +47,9 @@ export class DaysComponent implements OnChanges {
   tasksByDay: {
     [key: string]: { title: string; startDate: string; endDate: string }[];
   } = {
+    '2024-10-30': [
+      { title: 'Task Test', startDate: '2024-10-30', endDate: '2024-11-02' },
+    ],
     '2024-11-01': [
       { title: 'Task A', startDate: '2024-11-01', endDate: '2024-11-02' },
       { title: 'Task B', startDate: '2024-11-01', endDate: '2024-11-03' },
@@ -84,33 +93,18 @@ export class DaysComponent implements OnChanges {
     }
   }
 
-  alertDateAndTasks(day: number | null, weekday: string | null) {
-    if (day) {
-      const formattedDay = day.toString().padStart(2, '0');
-      const formattedMonth = (this.month + 1).toString().padStart(2, '0');
-
-      const key = `${this.year}-${formattedMonth}-${formattedDay}`;
-      const tasks = this.tasksByDay[key];
-      if (tasks && tasks.length > 0) {
-        const taskTitles = tasks
+  receivedData: {} = {};
+  handleDataFromChild(tasks: Task[]) {
+    this.receivedData = tasks;
+    if (tasks.length > 0)
+      alert(
+        tasks
           .map(
             (task) =>
               `${task.title} - START: ${task.startDate} - END: ${task.endDate}\n`
           )
-          .join('');
-        alert(
-          `YEAR: ${this.year}, MONTH: ${
-            this.month + 1
-          }, DAY: ${day}, WEEKDAY: ${weekday}\n\nTASKS:\n${taskTitles}`
-        );
-      } else {
-        alert(
-          `YEAR: ${this.year}, MONTH: ${
-            this.month + 1
-          }, DAY: ${day}, WEEKDAY: ${weekday}\n\nTASKS:\nNo tasks this day`
-        );
-      }
-    }
+          .join('')
+      );
   }
 
   generateDateKey(day: number): string {

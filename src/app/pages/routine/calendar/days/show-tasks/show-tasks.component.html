@@ -1,11 +1,13 @@
-<div class="tasksOfTheDayContainer">
+<div class="tasksOfTheDayContainer" (click)="sendDataToDaysComponent()">
   <span
     [ngClass]="{ taskContainer: true, currentDay: isToday(day) }"
     *ngFor="let task of visibleTasks"
+    [attr.data-startDate]="task.startDate"
+    [attr.data-endDate]="task.endDate"
   >
     {{ task.title }}
   </span>
   <span *ngIf="showRemainingTasks" class="moreTasks">
-    Mais {{ remainingTasks }} tasks
+    +{{ remainingTasks }} tasks
   </span>
 </div>

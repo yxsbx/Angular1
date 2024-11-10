@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 interface Task {
@@ -19,6 +19,11 @@ export class ShowTasksComponent {
   @Input() month: number = 0;
   @Input() year: number = 0;
   @Input() day: number = 0;
+
+  @Output() dataEmitter = new EventEmitter<Task[]>();
+  sendDataToDaysComponent() {
+    this.dataEmitter.emit(this.tasks);
+  }
 
   maxVisibleTasks = 2;
 
