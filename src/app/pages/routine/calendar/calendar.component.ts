@@ -11,4 +11,5 @@ import { DaysComponent } from './days/days.component';
 export class CalendarComponent {
   @Input() currentMonth: number = 0;
   @Input() currentYear: number = 0;
+  @Input() scrolled: boolean = false;
 }

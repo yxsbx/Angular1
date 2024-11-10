@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { RoutineHeaderComponent } from './routine-header/routine-header.component';
 import { CalendarComponent } from './calendar/calendar.component';
 
@@ -16,5 +16,13 @@ export class RoutineComponent {
   updateDate(date: Date): void {
     this.currentMonth = date.getMonth();
     this.currentYear = date.getFullYear();
+  }
+
+  scrolled: boolean = false;
+  @HostListener('window:scroll', ['$event'])
+  onScroll(event: Event): void {
+    const scrollPosition = window.scrollY || document.documentElement.scrollTop;
+    const triggerPoint = 200;
+    this.scrolled = scrollPosition >= triggerPoint;
   }
 }
