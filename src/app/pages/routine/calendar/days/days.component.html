@@ -1,7 +1,3 @@
-<div class="flex items-center justify-around bg-gray-100 h-20 text-lg">
-  <span class="weekday" *ngFor="let weekday of weekdays">{{ weekday }}</span>
-</div>
-
 <mat-grid-list cols="7" rowHeight="1:1">
   <mat-grid-tile
     *ngFor="let dayObj of monthDays"
@@ -15,10 +11,17 @@
       <span
         *ngIf="dayObj.day"
         class="dayNumber"
-        [@modeDown]="scrolled ? 'active' : 'inactive'"
+        [@moveDown]="scrolled ? 'active' : 'inactive'"
       >
         {{ dayObj.day }}
       </span>
+
+      <app-show-tasks
+        class="absolute w-full h-full"
+        *ngIf="dayObj.day"
+        [scrolled]="scrolled"
+        [tasks]="tasksByDay[generateDateKey(dayObj.day)] || []"
+      ></app-show-tasks>
     </div>
   </mat-grid-tile>
 </mat-grid-list>

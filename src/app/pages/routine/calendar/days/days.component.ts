@@ -8,11 +8,12 @@ import {
 } from '@angular/animations';
 import { CommonModule } from '@angular/common';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { ShowTasksComponent } from './show-tasks/show-tasks.component';
 
 @Component({
   selector: 'app-days',
   standalone: true,
-  imports: [CommonModule, MatGridListModule],
+  imports: [CommonModule, MatGridListModule, ShowTasksComponent],
   templateUrl: './days.component.html',
   styleUrl: './days.component.scss',
   animations: [
@@ -21,7 +22,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
       transition(':enter', [animate('300ms ease-in')]),
       transition(':leave', [animate('300ms ease-in')]),
     ]),
-    trigger('modeDown', [
+    trigger('moveDown', [
       state('active', style({ padding: '75px 0 0 25px' })),
       state('inactive', style({ padding: '40px 0 0 25px' })),
       transition('inactive => active', [animate('300ms ease-in')]),
@@ -36,6 +37,14 @@ export class DaysComponent implements OnChanges {
 
   weekdays: string[] = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   monthDays: { day: number | null; weekday: string | null }[] = [];
+
+  tasksByDay: { [key: string]: string[] } = {
+    '2024-11-01': ['Task 1', 'Task 2'],
+    '2024-11-03': ['Task 1', 'Task 2'],
+    '2024-11-15': ['Task 1'],
+    '2024-11-22': ['Task 1', 'Task 2', 'Task 3'],
+    '2024-10-22': ['Task 1', 'Task 2', 'Task 3', 'teste1', 'teste2'],
+  };
 
   isToday(day: number | null): boolean {
     const today = new Date();
@@ -74,5 +83,15 @@ export class DaysComponent implements OnChanges {
           this.month + 1
         }, DAY: ${day}, WEEKDAY: ${weekday}`
       );
+  }
+
+  generateDateKey(day: number | null): string {
+    if (!day) return '';
+    const year = this.year;
+    const month = this.month + 1;
+    const dayOfMonth = day;
+    return `${year}-${month < 10 ? '0' + month : month}-${
+      dayOfMonth < 10 ? '0' + dayOfMonth : dayOfMonth
+    }`;
   }
 }
