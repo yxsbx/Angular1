@@ -30,6 +30,19 @@ mat-grid-list {
       }
     }
 
+    .daysContainer.currentDay {
+      background: rgb(92, 92, 255);
+      color: #fff;
+      transition: background 0.2s;
+
+      .dayNumber {
+        color: #fff;
+      }
+      &:hover {
+        background: rgb(54, 54, 255);
+      }
+    }
+
     &:hover {
       background: #eaeaea;
     }

@@ -37,6 +37,15 @@ export class DaysComponent implements OnChanges {
   weekdays: string[] = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   monthDays: { day: number | null; weekday: string | null }[] = [];
 
+  isToday(day: number | null): boolean {
+    const today = new Date();
+    return (
+      day === today.getDate() &&
+      this.month === today.getMonth() &&
+      this.year === today.getFullYear()
+    );
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['month'] || changes['year']) {
       this.fillCalendar();

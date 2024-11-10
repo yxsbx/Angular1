@@ -7,7 +7,7 @@
     *ngFor="let dayObj of monthDays"
     (click)="alertDate(dayObj.day, dayObj.weekday)"
   >
-    <div class="daysContainer">
+    <div [ngClass]="{ daysContainer: true, currentDay: isToday(dayObj.day) }">
       <span *ngIf="scrolled && dayObj.weekday" class="dayWeek" [@fadeIn]>
         {{ dayObj.weekday }}
       </span>
