@@ -3,7 +3,7 @@
 </div>
 
 <mat-grid-list cols="7" rowHeight="1:1" class="calendar-grid">
-  <mat-grid-tile *ngFor="let day of monthDays">
+  <mat-grid-tile *ngFor="let day of monthDays" (click)="alertDate(day)">
     <div *ngIf="day" class="day">{{ day }}</div>
   </mat-grid-tile>
 </mat-grid-list>

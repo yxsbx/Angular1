@@ -10,11 +10,11 @@ import { MatGridListModule } from '@angular/material/grid-list';
   styleUrl: './days.component.scss',
 })
 export class DaysComponent implements OnChanges {
-  @Input() month: number = 0; // Recebe o mês
-  @Input() year: number = 0; // Recebe o ano
+  @Input() month: number = 0;
+  @Input() year: number = 0;
 
   weekdays: string[] = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-  monthDays: (number | null)[] = []; // Dias do mês na grid
+  monthDays: (number | null)[] = [];
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['month'] || changes['year']) {
@@ -33,5 +33,9 @@ export class DaysComponent implements OnChanges {
     for (let i = 0; i < daysInMonth; i++) {
       this.monthDays[startDay + i] = days[i];
     }
+  }
+
+  alertDate(day: number) {
+    if (day) alert(`YEAR: ${this.year} MONTH: ${this.month} DAY: ${day}`);
   }
 }
