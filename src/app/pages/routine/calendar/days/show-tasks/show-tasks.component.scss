@@ -7,4 +7,21 @@
   flex-direction: column;
   align-items: center;
   justify-content: flex-end;
+
+  .taskContainer {
+    text-align: center;
+    color: #fff;
+    border-radius: 5px;
+    width: 100%;
+    background-color: #029ae4;
+    margin-top: 5px;
+  }
+  .taskContainer.currentDay {
+    background-color: #f05722;
+  }
+
+  .moreTasks {
+    padding-top: 10px;
+    font-weight: 500;
+  }
 }

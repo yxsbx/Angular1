@@ -1,6 +1,11 @@
 <div class="tasksOfTheDayContainer">
-  <span *ngFor="let task of visibleTasks">
+  <span
+    [ngClass]="{ taskContainer: true, currentDay: isToday(day) }"
+    *ngFor="let task of visibleTasks"
+  >
     {{ task }}
   </span>
-  <span *ngIf="showRemainingTasks"> Mais {{ remainingTasks }} tasks </span>
+  <span *ngIf="showRemainingTasks" class="moreTasks">
+    Mais {{ remainingTasks }} tasks
+  </span>
 </div>

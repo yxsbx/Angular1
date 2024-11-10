@@ -43,7 +43,8 @@ export class DaysComponent implements OnChanges {
     '2024-11-03': ['Task 1', 'Task 2'],
     '2024-11-15': ['Task 1'],
     '2024-11-22': ['Task 1', 'Task 2', 'Task 3'],
-    '2024-10-22': ['Task 1', 'Task 2', 'Task 3', 'teste1', 'teste2'],
+    '2024-10-22': ['Task 1', 'Task 2', 'Task 3', 'Task 4', 'Task 5'],
+    '2024-11-10': ['Task 1', 'Task 2', 'Task 3', 'teste1', 'teste2'],
   };
 
   isToday(day: number | null): boolean {
@@ -76,13 +77,20 @@ export class DaysComponent implements OnChanges {
     }
   }
 
-  alertDate(day: number | null, weekday: string | null) {
-    if (day)
+  alertDateAndTasks(day: number | null, weekday: string | null) {
+    if (day) {
+      const formattedDay = day.toString().padStart(2, '0');
+      const formattedMonth = (this.month + 1).toString().padStart(2, '0');
+
+      const key = `${this.year}-${formattedMonth}-${formattedDay}`;
+      const tasks = this.tasksByDay[key] || 'No tasks this day';
+
       alert(
         `YEAR: ${this.year}, MONTH: ${
           this.month + 1
-        }, DAY: ${day}, WEEKDAY: ${weekday}`
+        }, DAY: ${day}, WEEKDAY: ${weekday}\n\nTASKS:\n${tasks}`
       );
+    }
   }
 
   generateDateKey(day: number | null): string {

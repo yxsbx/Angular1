@@ -1,7 +1,7 @@
 <mat-grid-list cols="7" rowHeight="1:1">
   <mat-grid-tile
     *ngFor="let dayObj of monthDays"
-    (click)="alertDate(dayObj.day, dayObj.weekday)"
+    (click)="alertDateAndTasks(dayObj.day, dayObj.weekday)"
   >
     <div [ngClass]="{ daysContainer: true, currentDay: isToday(dayObj.day) }">
       <span *ngIf="scrolled && dayObj.weekday" class="dayWeek" [@fadeIn]>
@@ -19,6 +19,9 @@
       <app-show-tasks
         class="absolute w-full h-full"
         *ngIf="dayObj.day"
+        [day]="dayObj.day"
+        [month]="month"
+        [year]="year"
         [scrolled]="scrolled"
         [tasks]="tasksByDay[generateDateKey(dayObj.day)] || []"
       ></app-show-tasks>
