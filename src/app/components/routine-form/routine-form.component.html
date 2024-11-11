@@ -1,0 +1,44 @@
+<h2 mat-dialog-title>{{ data.editRoutine ? 'Editar' : 'Criar'}} rotina</h2>
+
+<mat-dialog-content>
+    <form [formGroup]="routineForm" (ngSubmit)="onSubmit()">
+
+        <mat-form-field class="w-full">
+            <div class="flex items-center">
+                <input matInput formControlName="goals" required placeholder="Qual o seu objetivo?"
+                    class="outline-none w-full" />
+            </div>
+            <mat-error *ngIf="routineForm.get('goals')?.invalid">
+                O objetivo é obrigatório
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="w-full">
+            <mat-label>Que horas começa?</mat-label>
+            <div class="flex items-center">
+                <input matInput formControlName="startTime" type="time" required class="outline-none w-full" />
+            </div>
+            <mat-error *ngIf="routineForm.get('startTime')?.invalid">
+                O horário inicial é obrigatório
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="w-full">
+            <mat-label>Que horas termina?</mat-label>
+            <div class="flex items-center">
+                <input matInput formControlName="endTime" type="time" required class="outline-none w-full" />
+            </div>
+            <mat-error *ngIf="routineForm.get('endTime')?.invalid">
+                O horário final é obrigatório
+            </mat-error>
+        </mat-form-field>
+
+        <mat-dialog-actions>
+            <button mat-button mat-dialog-close type="reset">Cancelar</button>
+            <button mat-raised-button color="primary" type="submit">
+                <mat-icon class="mr-2">{{ data.editRoutine ? "edit" : "add" }}</mat-icon>
+                {{ data.editRoutine ? "Editar" : "Criar" }}
+            </button>
+        </mat-dialog-actions>
+    </form>
+</mat-dialog-content>
