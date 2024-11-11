@@ -1,32 +1,45 @@
-<mat-toolbar color="accent">
-  <div
-    class="logo-container flex items-center cursor-pointer"
-    routerLink="/routine"
-  >
-    <img src="assets/logo.png" alt="ZenFlow Logo" class="logo" />
-    <span class="title ml-4 font-bold text-white">ZenFlow</span>
+<header class="bg-gray-800 text-white flex flex-col h-[68px] p-4 w-full relative justify-center">
+  <div class="flex items-center gap-6 w-full">
+    <div class="flex items-center cursor-pointer" routerLink="/routine">
+      <img src="assets/logo.png" alt="ZenFlow Logo" class="h-8 mr-3" />
+      <span class="title font-bold text-lg text-white hidden sm:inline">ZenFlow</span>
+    </div>
+
+    <nav class="hidden sm:flex items-start justify-center ">
+      <ul class="flex gap-4">
+        <li *ngFor="let link of links">
+          <a [routerLink]="link.href" class="text-white flex gap-2 items-center w-fit">
+            <mat-icon>{{ link.icon }}</mat-icon>
+            {{ link.text }}
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="flex items-center ml-auto gap-4">
+      <button *ngIf="isAuthenticated | async" mat-raised-button color="warn" (click)="logout()">
+        <mat-icon class="mr-2">logout</mat-icon> Logout
+      </button>
+
+      <button id="menu-button" class="text-white w-6 h-6 sm:hidden" (click)="toggleMenu()">
+        <mat-icon>{{ isOpen ? "close" : "menu"}}</mat-icon>
+      </button>
+    </div>
   </div>
 
-  <mat-nav-list class="nav-links flex-grow flex justify-center space-x-4">
-    <a mat-button routerLink="/dashboard" class="text-white flex items-center">
-      <mat-icon class="mr-2">dashboard</mat-icon> Dashboard
-    </a>
-    <a mat-button routerLink="/routine" class="text-white flex items-center">
-      <mat-icon class="mr-2">event_note</mat-icon> Routine
-    </a>
-  </mat-nav-list>
-
-  <div class="user-actions flex items-center">
-    <button
-      *ngIf="isAuthenticated | async"
-      mat-raised-button
-      color="warn"
-      (click)="logout()"
-      class="ml-4 flex items-center"
-    >
-      <mat-icon class="mr-2">logout</mat-icon> Logout
-    </button>
+  <div *ngIf="isOpen"
+    class="block absolute inset-x-0 bg-slate-800 sm:hidden bottom-0 transition-all translate-y-full px-4 p-6 ">
+    <nav class="">
+      <ul class="flex flex-col gap-8">
+        <li *ngFor="let link of links">
+          <a [routerLink]="link.href" class="text-white flex gap-2 items-center w-fit" (click)="toggleMenu()">
+            <mat-icon>{{ link.icon }}</mat-icon>
+            {{ link.text }}
+          </a>
+        </li>
+      </ul>
+    </nav>
   </div>
-</mat-toolbar>
+</header>
 
 <router-outlet></router-outlet>

@@ -1,10 +1,7 @@
-import { Component } from '@angular/core';
-import { RouterModule, Router } from '@angular/router';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatListModule } from '@angular/material/list';
 import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
+import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '@app/services/auth';
 import { Observable } from 'rxjs';
 
@@ -15,9 +12,6 @@ import { Observable } from 'rxjs';
   styleUrls: ['./app.component.scss'],
   imports: [
     RouterModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatListModule,
     MatIconModule,
     CommonModule,
   ],
@@ -25,6 +19,19 @@ import { Observable } from 'rxjs';
 export class AppComponent {
   title = 'ZenFlow';
   isAuthenticated: Observable<boolean>;
+  isOpen: boolean = false;
+  links = [
+    {
+      icon: 'dashboard',
+      href: '/dashboard',
+      text: 'Dashboard',
+    },
+    {
+      icon: 'event_note',
+      href: '/routine',
+      text: 'Routine',
+    }
+  ]
 
   constructor(private authService: AuthService, private router: Router) {
     this.isAuthenticated = this.authService.isAuthenticated();
@@ -33,5 +40,9 @@ export class AppComponent {
   logout(): void {
     this.authService.logout();
     this.router.navigate(['/login']);
+  }
+
+  toggleMenu(): void {
+    this.isOpen = !this.isOpen;
   }
 }
