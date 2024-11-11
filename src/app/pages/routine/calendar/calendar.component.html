@@ -1,0 +1,9 @@
+<div class="flex items-center justify-around bg-gray-100 h-20 text-lg">
+  <span class="weekday" *ngFor="let weekday of weekdays">{{ weekday }}</span>
+</div>
+<app-days
+  [scrolled]="scrolled"
+  [month]="currentMonth"
+  [year]="currentYear"
+  (tasksSelected)="handleTasksFromDays($event)"
+></app-days>
