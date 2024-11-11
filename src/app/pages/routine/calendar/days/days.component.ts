@@ -46,20 +46,50 @@ export class DaysComponent implements OnChanges {
   monthDays: { day: number | null; weekday: string | null }[] = [];
 
   tasksByDay: {
-    [key: string]: { title: string; startDate: string; endDate: string }[];
+    [key: string]: Task[];
   } = {
     '2024-10-30': [
-      { title: 'Task Test', startDate: '2024-10-30', endDate: '2024-11-02' },
+      {
+        title: 'Task Test',
+        startDate: '2024-10-30',
+        endDate: '2024-11-02',
+        startHour: '20:00',
+        endHour: '14:00',
+      },
     ],
     '2024-11-01': [
-      { title: 'Task A', startDate: '2024-11-01', endDate: '2024-11-02' },
-      { title: 'Task B', startDate: '2024-11-01', endDate: '2024-11-03' },
+      {
+        title: 'Task A',
+        startDate: '2024-11-01',
+        endDate: '2024-11-02',
+        startHour: '20:00',
+        endHour: '14:00',
+      },
+      {
+        title: 'Task B',
+        startDate: '2024-11-01',
+        endDate: '2024-11-03',
+        startHour: '20:00',
+        endHour: '14:00',
+      },
     ],
     '2024-11-03': [
-      { title: 'Task C', startDate: '2024-11-05', endDate: '2024-11-06' },
+      {
+        title: 'Task C',
+        startDate: '2024-11-05',
+        endDate: '2024-11-06',
+        startHour: '20:00',
+        endHour: '14:00',
+      },
     ],
     '2024-11-10': [
-      { title: 'Task D', startDate: '2024-11-10', endDate: '2024-11-12' },
+      {
+        title: 'Task D',
+        startDate: '2024-11-10',
+        endDate: '2024-11-12',
+        startHour: '20:00',
+        endHour: '14:00',
+      },
     ],
   };
 
@@ -106,11 +136,11 @@ export class DaysComponent implements OnChanges {
   }
 
   expandedTasksByDay: {
-    [key: string]: { title: string; startDate: string; endDate: string }[];
+    [key: string]: Task[];
   } = {};
   generateTasksForCalendar(): void {
     const allTasks: {
-      [key: string]: { title: string; startDate: string; endDate: string }[];
+      [key: string]: Task[];
     } = {};
 
     Object.keys(this.tasksByDay).forEach((key) => {

@@ -5,7 +5,7 @@
     [attr.data-startDate]="task.startDate"
     [attr.data-endDate]="task.endDate"
   >
-    {{ task.title }}
+    {{ task.title }} - {{ task.startHour }} - {{ task.endHour }}
   </span>
   <span *ngIf="showRemainingTasks" class="moreTasks">
     +{{ remainingTasks }} tasks
