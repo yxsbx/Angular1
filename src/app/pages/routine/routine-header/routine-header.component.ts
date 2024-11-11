@@ -35,15 +35,14 @@ export class RoutineHeaderComponent {
     'November',
     'December',
   ];
+
+  public currentMonthName: string = this.monthNames[this.currentMonthIndex];
+
   @Output() dateSelected = new EventEmitter<Date>();
 
   selectedDate: Date | null = null;
-  onDatePickerSelect(date: Date): void {
-    this.dateSelected.emit(date);
-    this.selectedDate = date;
-  }
-
   isRotated = false;
+
   toggleRotation(): void {
     this.isRotated = !this.isRotated;
   }
@@ -51,13 +50,19 @@ export class RoutineHeaderComponent {
   selectCurrentDay() {
     this.selectedDate = this.currentDate;
     this.dateSelected.emit(this.currentDate);
+    this.updateCurrentMonthName();
   }
 
-  public currentMonthName(): any {
+  onDatePickerSelect(date: Date): void {
+    this.dateSelected.emit(date);
+    this.selectedDate = date;
+    this.updateCurrentMonthName();
+  }
+  private updateCurrentMonthName() {
     if (this.selectedDate) {
-      return this.monthNames[this.selectedDate.getMonth()];
+      this.currentMonthName = this.monthNames[this.selectedDate.getMonth()];
     } else {
-      return this.monthNames[this.currentMonthIndex];
+      this.currentMonthName = this.monthNames[this.currentMonthIndex];
     }
   }
 }

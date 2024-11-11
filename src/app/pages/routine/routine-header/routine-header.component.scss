@@ -1,10 +1,13 @@
 mat-toolbar {
   height: 100%;
 
-  #button-select-current-month {
+  #current-month {
     height: 3rem;
     width: 8rem;
     font-size: large;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   #button-arrow-drop-down-data-picker {

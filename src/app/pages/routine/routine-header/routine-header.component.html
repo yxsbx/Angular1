@@ -1,14 +1,8 @@
 <mat-toolbar class="flex justify-around drop-shadow-lg">
   <div class="flex justify-center items-center text-center gap-2">
-    <button
-      id="button-select-current-month"
-      mat-button
-      class="example-icon favorite-icon"
-      aria-label="Example icon-button with heart icon"
-      (click)="selectCurrentDay()"
-    >
-      {{ currentMonthName() }}
-    </button>
+    <h2 id="current-month">
+      {{ currentMonthName }}
+    </h2>
     <div class="flex justify-center items-center">
       <button
         id="button-arrow-drop-down-data-picker"
