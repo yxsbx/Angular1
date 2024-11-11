@@ -3,11 +3,8 @@ import { CommonModule } from '@angular/common';
 import { RoutineHeaderComponent } from './routine-header/routine-header.component';
 import { CalendarComponent } from './calendar/calendar.component';
 import { TasksDetailsModalComponent } from './tasks-details-modal/tasks-details-modal.component';
-interface Task {
-  title: string;
-  startDate: string;
-  endDate: string;
-}
+import { Task } from '../../models/task-TEMP'; //TEMPORARY, JUST TO ORGANIZE
+
 @Component({
   selector: 'app-routine',
   standalone: true,

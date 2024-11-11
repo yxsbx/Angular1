@@ -1,11 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Task } from '../../../../../models/task-TEMP'; //TEMPORARY, JUST TO ORGANIZE
 
-interface Task {
-  title: string;
-  startDate: string;
-  endDate: string;
-}
 @Component({
   selector: 'app-show-tasks',
   standalone: true,

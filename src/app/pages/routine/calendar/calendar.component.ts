@@ -1,11 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { DaysComponent } from './days/days.component';
 import { CommonModule } from '@angular/common';
-interface Task {
-  title: string;
-  startDate: string;
-  endDate: string;
-}
+import { Task } from '../../../models/task-TEMP'; //TEMPORARY, JUST TO ORGANIZE
+
 @Component({
   selector: 'app-calendar',
   standalone: true,

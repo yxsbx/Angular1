@@ -16,13 +16,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { ShowTasksComponent } from './show-tasks/show-tasks.component';
-
-interface Task {
-  title: string;
-  startDate: string;
-  endDate: string;
-}
-
+import { Task } from '../../../../models/task-TEMP';
 @Component({
   selector: 'app-days',
   standalone: true,

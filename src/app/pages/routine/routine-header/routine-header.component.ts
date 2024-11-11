@@ -4,7 +4,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { HeaderDataPickerComponent } from './header-data-picker/header-data-picker.component';
-
 @Component({
   selector: 'app-routine-header',
   standalone: true,

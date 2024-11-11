@@ -2,11 +2,8 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { CommonModule } from '@angular/common';
-interface Task {
-  title: string;
-  startDate: string;
-  endDate: string;
-}
+import { Task } from '../../../models/task-TEMP'; //TEMPORARY, JUST TO ORGANIZE
+
 @Component({
   selector: 'app-tasks-details-modal',
   standalone: true,
