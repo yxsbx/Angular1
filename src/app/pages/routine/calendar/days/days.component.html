@@ -21,7 +21,6 @@
         [year]="year"
         [scrolled]="scrolled"
         [tasks]="expandedTasksByDay[generateDateKey(dayObj.day)] || []"
-        [maxVisibleTasks]="2"
         (dataEmitter)="handleDataFromChild($event)"
       ></app-show-tasks>
     </div>

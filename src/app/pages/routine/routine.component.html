@@ -5,9 +5,15 @@
     class="w-full h-20 bg-gray-200 z-10"
   ></app-routine-header>
   <app-calendar
+    (tasksSelected)="openModal($event)"
     [scrolled]="scrolled"
     [currentMonth]="currentMonth"
     [currentYear]="currentYear"
     class="w-full h-1/2"
   ></app-calendar>
+  <app-tasks-details-modal
+    *ngIf="isModalOpen"
+    [tasks]="selectedTasks"
+    (closeModal)="closeModal()"
+  ></app-tasks-details-modal>
 </main>

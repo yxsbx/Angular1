@@ -1,4 +1,11 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import {
   trigger,
   state,
@@ -93,18 +100,9 @@ export class DaysComponent implements OnChanges {
     }
   }
 
-  receivedData: {} = {};
+  @Output() tasksSelected = new EventEmitter<Task[]>();
   handleDataFromChild(tasks: Task[]) {
-    this.receivedData = tasks;
-    if (tasks.length > 0)
-      alert(
-        tasks
-          .map(
-            (task) =>
-              `${task.title} - START: ${task.startDate} - END: ${task.endDate}\n`
-          )
-          .join('')
-      );
+    this.tasksSelected.emit(tasks);
   }
 
   generateDateKey(day: number): string {
