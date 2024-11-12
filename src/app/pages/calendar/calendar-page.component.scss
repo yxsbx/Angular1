@@ -1,0 +1,190 @@
+.calendar-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.calendar-header {
+  padding: 0.5rem 1rem;
+  display: flex;
+  align-items: center;
+
+  .logo {
+    width: 3rem;
+    height: 3rem;
+    margin-right: 0.5rem;
+  }
+
+  .title {
+    font-size: 1.25rem;
+    color: #4a5568;
+    font-weight: bold;
+    margin-right: 2.5rem;
+  }
+
+  .today-button {
+    border: 1px solid #cbd5e0;
+    padding: 0.5rem 1rem;
+    margin-right: 1.25rem;
+    border-radius: 0.25rem;
+  }
+
+  .month-year {
+    font-size: 1.25rem;
+    color: #4a5568;
+    font-weight: bold;
+    margin-left: 1rem;
+  }
+}
+
+.calendar-layout {
+  display: flex;
+  height: 100vh;
+
+  .sidebar {
+    flex: 0 0 16rem;
+    border-right: 1px solid #e0e0e0;
+    background-color: #f9fafb;
+    padding: 1.25rem;
+    overflow-y: auto;
+
+    .day {
+      width: 100%;
+      text-align: center;
+      padding: 0.5rem;
+      font-size: 0.875rem;
+
+      &.selected-day {
+        background-color: #2196f3;
+        color: white;
+        border-radius: 50%;
+      }
+    }
+  }
+
+  .month-container {
+    flex-grow: 1;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 1px;
+    padding: 1rem;
+    background: #f9fafb;
+
+    .day-cell {
+      min-height: 120px;
+      height: 100%;
+      border: 1px solid #e5e7eb;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 4px;
+
+      .events-container {
+        overflow-y: auto;
+        max-height: 80px;
+      }
+
+      .day-header {
+        flex-shrink: 0;
+        text-align: center;
+        font-size: 0.875rem;
+        font-weight: bold;
+      }
+
+      .day-number {
+        font-size: 1rem;
+        font-weight: bold;
+        margin: 0.25rem 0;
+        border-radius: 50%;
+      }
+
+      .events-container .event {
+        background-color: #e2e8f0;
+        padding: 0.125rem;
+        margin: 0.125rem;
+        border-radius: 4px;
+        font-size: 0.75rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+
+  mat-dialog-content {
+    max-height: 80vh;
+    overflow-y: auto;
+    padding: 16px;
+  }
+
+  mat-dialog-container {
+    max-width: 90vw;
+    overflow: hidden;
+  }
+
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+
+  .modal-content {
+    background: white;
+    border-radius: 8px;
+    width: 400px;
+    max-width: 90%;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+    padding: 16px;
+  }
+
+  .icon-text {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 16px;
+  }
+
+  .input-title,
+  .input-description {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #e5e7eb;
+    padding: 8px 0;
+    font-size: 1.125rem;
+    color: #4b5563;
+    outline: none;
+  }
+
+  .labels {
+    display: flex;
+    gap: 8px;
+  }
+
+  .label {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+
+  .selected-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .save-button {
+    background-color: #3b82f6;
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+}

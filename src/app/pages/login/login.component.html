@@ -22,8 +22,11 @@
             class="pl-2 outline-none w-full"
           />
         </div>
-        <mat-error *ngIf="loginForm.get('email')?.invalid">
-          Please enter a valid email.
+        <mat-error *ngIf="loginForm.get('email')?.hasError('required')">
+          Email é obrigatório.
+        </mat-error>
+        <mat-error *ngIf="loginForm.get('email')?.hasError('email')">
+          Por favor, insira um email válido.
         </mat-error>
       </mat-form-field>
 
@@ -35,12 +38,29 @@
             formControlName="password"
             type="password"
             required
-            placeholder="Password"
+            placeholder="Senha"
             class="pl-2 outline-none w-full"
           />
         </div>
-        <mat-error *ngIf="loginForm.get('password')?.invalid">
-          Password is required.
+        <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
+          Senha é obrigatória.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="w-full" *ngIf="isRegistering">
+        <div class="flex items-center">
+          <mat-icon matPrefix class="mx-4 text-blue-800">person</mat-icon>
+          <input
+            matInput
+            formControlName="name"
+            type="text"
+            required
+            placeholder="Nome Completo"
+            class="pl-2 outline-none w-full"
+          />
+        </div>
+        <mat-error *ngIf="loginForm.get('name')?.hasError('required')">
+          Nome completo é obrigatório.
         </mat-error>
       </mat-form-field>
 
@@ -53,9 +73,10 @@
         <mat-icon class="mr-2">{{
           isRegistering ? "person_add" : "login"
         }}</mat-icon>
-        {{ isRegistering ? "Register" : "Login" }}
+        {{ isRegistering ? "Registrar" : "Login" }}
       </button>
     </form>
+
     <button
       mat-button
       (click)="toggleMode()"
@@ -65,7 +86,9 @@
         isRegistering ? "login" : "person_add"
       }}</mat-icon>
       {{
-        isRegistering ? "Already have an account? Login" : "Create an account"
+        isRegistering
+          ? "Já tem uma conta? Faça login"
+          : "Não tem uma conta? Crie uma"
       }}
     </button>
   </div>

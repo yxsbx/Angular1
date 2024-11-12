@@ -1,7 +1,6 @@
 (function (window) {
   window.__env = window.__env || {};
-
-  window.__env.apiUrl = "{{NG_APP_API_URL}}";
+  window.__env.apiUrl = "https://zenflow-back-end-java.onrender.com";
   window.__env.firebaseApiKey = "{{NG_FIREBASE_API_KEY}}";
   window.__env.firebaseAuthDomain = "{{NG_FIREBASE_AUTH_DOMAIN}}";
   window.__env.firebaseProjectId = "{{NG_FIREBASE_PROJECT_ID}}";

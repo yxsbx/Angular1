@@ -1,8 +1,10 @@
 export interface Routine {
   id: number;
   userId: number;
-  startDateTime: string;
-  endDateTime: string;
+  startDate: string;
+  startTime: string;
+  endDate: string;
+  endTime: string;
   goals: string;
   completed: boolean;
   sendToCalendar: boolean;
