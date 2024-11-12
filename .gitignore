@@ -41,17 +41,12 @@ testem.log
 # Miscellaneous files
 /connect.lock
 /typings
-firebase-adminsdk.json
 credentials.json
 
 # System files
 .DS_Store
 Thumbs.db
 
-# Firebase
-.firebase
 *-debug.log
-.runtimeconfig.json
 .env
 .vercel
-.env*.local

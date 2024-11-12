@@ -1,70 +1,91 @@
-import { Injectable, inject } from '@angular/core';
-import { Observable, from } from 'rxjs';
-import { map, take } from 'rxjs/operators';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { Injectable } from '@angular/core';
+import { Observable, of, BehaviorSubject } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '@src/environments/environment';
 
-/**
- * AuthService handles authentication operations, including login, registration,
- * logout, and retrieving the current user authentication status.
- */
+interface TokenResponse {
+  idToken?: string;
+  customToken?: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private afAuth = inject(AngularFireAuth);
+  private apiUrl = environment.apiUrl;
+  private isRegisteringSubject: BehaviorSubject<boolean> =
+    new BehaviorSubject<boolean>(false);
+  public isRegistering$: Observable<boolean> =
+    this.isRegisteringSubject.asObservable();
 
-  /**
-   * Logs in the user with the specified email and password.
-   * @param email - The user's email address.
-   * @param password - The user's password.
-   * @returns An Observable with the login result, containing success status and user data.
-   */
-  login(email: string, password: string): Observable<any> {
-    return from(this.afAuth.signInWithEmailAndPassword(email, password)).pipe(
-      map((userCredential) => ({
-        success: true,
-        user: userCredential.user,
-      }))
-    );
+  constructor(private http: HttpClient) {}
+
+  setRegistering(isRegistering: boolean): void {
+    this.isRegisteringSubject.next(isRegistering);
   }
 
-  /**
-   * Registers a new user with the specified email and password.
-   * @param email - The user's email address.
-   * @param password - The user's password.
-   * @returns An Observable with the registration result, containing success status and user data.
-   */
-  register(email: string, password: string): Observable<any> {
-    return from(
-      this.afAuth.createUserWithEmailAndPassword(email, password)
-    ).pipe(
-      map((userCredential) => ({
-        success: true,
-        user: userCredential.user,
-      }))
-    );
+  login(
+    email: string,
+    password: string
+  ): Observable<{ success: boolean; error?: string }> {
+    return this.http
+      .post<TokenResponse>(`${this.apiUrl}/api/auth/login`, { email, password })
+      .pipe(
+        map((response) => {
+          if (response.idToken) {
+            localStorage.setItem('idToken', response.idToken);
+            return { success: true };
+          } else {
+            return { success: false, error: 'Login falhou' };
+          }
+        }),
+        catchError((error) => {
+          console.error('Login failed:', error);
+          const errorMessage =
+            error.error?.error?.message || 'Erro desconhecido';
+          return of({ success: false, error: errorMessage });
+        })
+      );
   }
 
-  /**
-   * Logs out the currently authenticated user.
-   */
+  register(email: string, password: string, name: string): Observable<any> {
+    return this.http
+      .post<TokenResponse>(`${this.apiUrl}/api/auth/register`, {
+        email,
+        password,
+        name,
+      })
+      .pipe(
+        map((response) => {
+          if (response.customToken) {
+            return { success: true };
+          } else {
+            return { success: false, error: 'Registro falhou' };
+          }
+        }),
+        catchError((error) => {
+          console.error('Registration failed:', error);
+          const errorMessage =
+            error.error?.error?.message || 'Erro desconhecido';
+          return of({ success: false, error: errorMessage });
+        })
+      );
+  }
+
   logout(): void {
-    this.afAuth.signOut();
+    localStorage.removeItem('idToken');
+    window.location.href = '/login';
   }
 
-  /**
-   * Checks if a user is currently authenticated.
-   * @returns An Observable that emits a boolean indicating the authentication status.
-   */
   isAuthenticated(): Observable<boolean> {
-    return this.afAuth.authState.pipe(map((user) => !!user));
+    const token = localStorage.getItem('idToken');
+    return of(!!token);
   }
 
-  /**
-   * Retrieves the current authenticated user.
-   * @returns An Observable that emits the user data of the authenticated user.
-   */
-  getUser(): Observable<any> {
-    return this.afAuth.authState;
+  getUserToken(): Observable<string | null> {
+    const token = localStorage.getItem('idToken');
+    console.log('Token recuperado do localStorage:', token);
+    return of(token);
   }
 }

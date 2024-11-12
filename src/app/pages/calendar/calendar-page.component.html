@@ -1,0 +1,214 @@
+<header class="calendar-header px-4 py-2 flex items-center">
+  <img
+    src="assets/logo-calendar.png"
+    alt="calendar"
+    class="logo mr-2 w-12 h-12"
+  />
+  <h1 class="title mr-10 text-xl text-gray-500 font-bold">Calendar</h1>
+  <button
+    (click)="handleReset()"
+    class="today-button border rounded py-2 px-4 mr-5"
+  >
+    Today
+  </button>
+  <button (click)="handlePrevMonth()">
+    <mat-icon class="cursor-pointer text-gray-600 mx-2">chevron_left</mat-icon>
+  </button>
+  <button (click)="handleNextMonth()">
+    <mat-icon class="cursor-pointer text-gray-600 mx-2">chevron_right</mat-icon>
+  </button>
+  <h2 class="month-year ml-4 text-xl text-gray-500 font-bold">
+    {{ formattedMonthYear }}
+  </h2>
+</header>
+
+<div class="calendar-layout flex h-screen">
+  <aside class="sidebar flex-shrink-0 w-64 p-5 border-r border-gray-200">
+    <button
+      (click)="triggerEventModal()"
+      class="create-button border p-2 rounded-full flex items-center shadow-md hover:shadow-2xl mt-5"
+    >
+      <img src="assets/plus.svg" alt="Add" class="w-6 h-6 mr-2" />
+      <span class="text pl-3 pr-7">Create</span>
+    </button>
+
+    <div class="small-calendar mt-6">
+      <header
+        class="small-calendar-header flex justify-between items-center px-2 py-2"
+      >
+        <p class="text-sm font-semibold text-gray-700">
+          {{ formattedMonthYear }}
+        </p>
+        <div class="nav-buttons">
+          <button (click)="handlePrevMonth()" class="small-nav-btn">
+            <mat-icon class="small-nav-icon">chevron_left</mat-icon>
+          </button>
+          <button (click)="handleNextMonth()" class="small-nav-btn">
+            <mat-icon class="small-nav-icon">chevron_right</mat-icon>
+          </button>
+        </div>
+      </header>
+
+      <div class="small-calendar-grid">
+        <div class="small-day-names grid grid-cols-7">
+          <span
+            *ngFor="let day of shortDayNames"
+            class="text-xs font-semibold text-center my-2"
+          >
+            {{ day }}
+          </span>
+        </div>
+        <div class="small-calendar-days grid grid-cols-7">
+          <ng-container *ngFor="let week of currentMonth">
+            <ng-container *ngFor="let day of week">
+              <button
+                (click)="selectDay(day)"
+                class="small-day-btn"
+                [ngClass]="{
+                  'selected-day': selectedDay && selectedDay.isSame(day, 'day')
+                }"
+              >
+                {{ day.format("D") }}
+              </button>
+            </ng-container>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+
+    <div class="labels mt-10">
+      <p class="text-gray-500 font-bold">Labels</p>
+      <div *ngFor="let label of labels">
+        <label class="flex items-center mt-3">
+          <input
+            type="checkbox"
+            [checked]="label.checked"
+            (change)="toggleLabel(label)"
+            class="form-checkbox h-5 w-5 rounded focus:ring-0 cursor-pointer"
+          />
+          <span class="ml-2 text-gray-700 capitalize">{{ label.label }}</span>
+        </label>
+      </div>
+    </div>
+  </aside>
+
+  <div class="month-container flex-1 overflow-auto p-5">
+    <ng-container *ngFor="let row of currentMonth; let rowIdx = index">
+      <ng-container *ngFor="let day of row">
+        <div class="day-cell border border-gray-200 flex flex-col">
+          <header class="day-header flex flex-col items-center">
+            <p *ngIf="rowIdx === 0" class="day-name text-sm mt-1">
+              {{ day.format("ddd").toUpperCase() }}
+            </p>
+            <p
+              class="day-number text-sm p-1 my-1 text-center"
+              [ngClass]="getCurrentDayClass(day)"
+            >
+              {{ day.format("DD") }}
+            </p>
+          </header>
+          <div
+            class="events-container flex-1 cursor-pointer"
+            (click)="onDayClick(day)"
+          >
+            <div
+              *ngFor="let evt of getEventsForDay(day)"
+              (click)="setSelectedEvent(evt)"
+              class="event p-1 mr-3 text-gray-600 text-sm rounded mb-1 truncate"
+              [ngClass]="'bg-' + evt.label + '-200'"
+            >
+              {{ evt.title }}
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </ng-container>
+
+    <ng-container *ngIf="showEventModal">
+      <div class="modal-overlay">
+        <div class="modal-content">
+          <section class="space-y-2 p-4">
+            <h2 class="text-lg font-semibold text-center text-blue-600">
+              {{ selectedEvent ? "Edit Routine" : "Add New Routine" }}
+            </h2>
+            <form [formGroup]="routineForm" (ngSubmit)="handleSubmit()">
+              <mat-form-field appearance="outline" class="w-full">
+                <input
+                  matInput
+                  formControlName="goals"
+                  placeholder="Enter routine goal"
+                  required
+                />
+                <mat-error *ngIf="routineForm.get('goals')?.invalid">
+                  Goal is required.
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="w-full">
+                <input
+                  matInput
+                  [matDatepicker]="startPicker"
+                  formControlName="startDate"
+                  placeholder="Enter start date"
+                  required
+                />
+                <mat-datepicker-toggle
+                  matSuffix
+                  [for]="startPicker"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #startPicker></mat-datepicker>
+                <mat-error *ngIf="routineForm.get('startDate')?.invalid">
+                  Start date is required.
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="w-full">
+                <input
+                  matInput
+                  formControlName="startTime"
+                  placeholder="Enter start time (HH:MM)"
+                  required
+                />
+                <mat-error *ngIf="routineForm.get('startTime')?.invalid">
+                  Start time is required.
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="w-full">
+                <input
+                  matInput
+                  [matDatepicker]="endPicker"
+                  formControlName="endDate"
+                  placeholder="Enter end date"
+                  required
+                />
+                <mat-datepicker-toggle
+                  matSuffix
+                  [for]="endPicker"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #endPicker></mat-datepicker>
+                <mat-error *ngIf="routineForm.get('endDate')?.invalid">
+                  End date is required.
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="w-full">
+                <input
+                  matInput
+                  formControlName="endTime"
+                  placeholder="Enter end time (HH:MM)"
+                  required
+                />
+                <mat-error *ngIf="routineForm.get('endTime')?.invalid">
+                  End time is required.
+                </mat-error>
+              </mat-form-field>
+              <div class="modal-actions space-x-3" align="end">
+                <button mat-button (click)="closeModal()">Cancel</button>
+                <button mat-raised-button color="primary" type="submit">
+                  Save
+                </button>
+              </div>
+            </form>
+          </section>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>

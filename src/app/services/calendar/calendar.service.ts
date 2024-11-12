@@ -1,26 +1,21 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '@src/environments/environment';
+import { NavigationDirection } from '@src/app/models/navigation-direction';
+import { ViewTypes } from '@src/app/models/view-types';
 
-/**
- * CalendarService handles integration with Google Calendar.
- */
 @Injectable({
   providedIn: 'root',
 })
 export class CalendarService {
   private apiUrl = environment.apiUrl;
 
+  private dayNavigationAction$ = new Subject<NavigationDirection>();
+  private viewType$ = new Subject<ViewTypes>();
+
   constructor(private http: HttpClient) {}
 
-  /**
-   * Adds an event to Google Calendar.
-   * @param eventTitle - The event's title
-   * @param startDateTime - The event's start date and time (ISO 8601 format)
-   * @param endDateTime - The event's end date and time (ISO 8601 format)
-   * @returns An Observable with a confirmation message or the created event link.
-   */
   addEventToCalendar(
     eventTitle: string,
     startDateTime: string,
@@ -31,5 +26,21 @@ export class CalendarService {
       startDateTime,
       endDateTime,
     });
+  }
+
+  navigate(direction: NavigationDirection) {
+    this.dayNavigationAction$.next(direction);
+  }
+
+  onNavigate(): Observable<NavigationDirection> {
+    return this.dayNavigationAction$.asObservable();
+  }
+
+  setViewType(viewType: ViewTypes) {
+    this.viewType$.next(viewType);
+  }
+
+  onViewTypeChange(): Observable<ViewTypes> {
+    return this.viewType$.asObservable();
   }
 }

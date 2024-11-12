@@ -1,1 +1,28 @@
-<p>dashboard works!</p>
+<div class="dashboard p-6 space-y-4 text-center">
+  <h2 class="text-2xl font-bold text-gray-700">Dashboard de Rotinas</h2>
+
+  <p class="text-lg">{{ message }}</p>
+  <p class="text-md text-gray-600">{{ suggestion }}</p>
+
+  <div class="grid grid-cols-2 gap-6 mt-4">
+    <div class="card">
+      <h3 class="text-lg font-bold">Rotinas Concluídas</h3>
+      <canvas id="completionChart"></canvas>
+    </div>
+
+    <div class="card">
+      <h3 class="text-lg font-bold">Meta Semanal</h3>
+      <canvas id="weeklyGoalChart"></canvas>
+    </div>
+
+    <div class="card">
+      <h3 class="text-lg font-bold">Progresso Diário</h3>
+      <canvas id="progressChart"></canvas>
+    </div>
+
+    <div class="card">
+      <h3 class="text-lg font-bold">Média de Rotinas</h3>
+      <canvas id="averageChart"></canvas>
+    </div>
+  </div>
+</div>
