@@ -1,19 +1,171 @@
-<!-- MUDARO h-screen para h-full -->
-<main class="w-full h-screen flex flex-col align-center">
-  <app-routine-header
-    (dateSelected)="updateDate($event)"
-    class="w-full h-20 bg-gray-200 z-10"
-  ></app-routine-header>
-  <app-calendar
-    (tasksSelected)="openModal($event)"
-    [scrolled]="scrolled"
-    [currentMonth]="currentMonth"
-    [currentYear]="currentYear"
-    class="w-full h-1/2"
-  ></app-calendar>
-  <app-tasks-details-modal
-    *ngIf="isModalOpen"
-    [tasks]="selectedTasks"
-    (closeModal)="closeModal()"
-  ></app-tasks-details-modal>
+<main class="w-full h-screen flex flex-col">
+  <div class="routine-list-container p-6">
+    <h2 class="text-2xl font-bold text-gray-700">Routine List</h2>
+    <button mat-raised-button color="primary" (click)="openRoutineModal()">
+      <mat-icon>add</mat-icon> Add Routine
+    </button>
+
+    <div *ngIf="routines.length; else noRoutines">
+      <ul>
+        <li *ngFor="let routine of routines" class="routine-item">
+          <div class="goal-title pt-4 flex items-center space-x-4">
+            <h3 class="text-2xl font-bold text-gray-800">
+              {{ routine.goals }}
+            </h3>
+          </div>
+          <div class="routine-content flex items-center space-x-8 mt-2">
+            <div class="flex flex-col items-center">
+              <div class="flex items-center space-x-2">
+                <mat-icon color="primary">calendar_today</mat-icon>
+                <strong>Start Date:</strong>
+                <span>{{ routine.startDate | date : "shortDate" }}</span>
+              </div>
+              <div class="flex items-center space-x-2 mt-1">
+                <mat-icon color="primary">schedule</mat-icon>
+                <strong>Start Time:</strong>
+                <span>{{ routine.startTime }}</span>
+              </div>
+            </div>
+
+            <div class="flex flex-col items-center">
+              <div class="flex items-center space-x-2">
+                <mat-icon color="accent">calendar_today</mat-icon>
+                <strong>End Date:</strong>
+                <span>{{ routine.endDate | date : "shortDate" }}</span>
+              </div>
+              <div class="flex items-center space-x-2 mt-1">
+                <mat-icon color="accent">schedule</mat-icon>
+                <strong>End Time:</strong>
+                <span>{{ routine.endTime }}</span>
+              </div>
+            </div>
+
+            <div class="flex items-center space-x-2">
+              <mat-icon color="accent">event_available</mat-icon>
+              <strong>Send to Calendar:</strong>
+              <span>{{ routine.sendToCalendar ? "Yes" : "No" }}</span>
+            </div>
+
+            <div class="flex items-center space-x-2">
+              <mat-icon color="warn">check_circle_outline</mat-icon>
+              <strong>Completed:</strong>
+              <mat-checkbox
+                color="primary"
+                [checked]="routine.completed"
+                (change)="toggleCompletion(routine)"
+              ></mat-checkbox>
+            </div>
+
+            <div class="flex items-center space-x-2 mt-2">
+              <button
+                mat-raised-button
+                color="warn"
+                (click)="deleteRoutine(routine.id)"
+              >
+                <mat-icon>delete</mat-icon> Delete
+              </button>
+            </div>
+          </div>
+          <mat-divider></mat-divider>
+        </li>
+      </ul>
+    </div>
+
+    <ng-template #noRoutines>
+      <p class="text-gray-500">No routines found.</p>
+    </ng-template>
+  </div>
+
+  <ng-container *ngIf="isModalOpen">
+    <div class="modal-overlay">
+      <div class="modal-content">
+        <section class="space-y-2 p-4">
+          <h2 class="text-lg font-semibold text-center text-blue-600">
+            Add New Routine
+          </h2>
+
+          <form [formGroup]="routineForm" (ngSubmit)="createRoutine()">
+            <mat-form-field appearance="outline" class="w-full">
+              <input
+                matInput
+                formControlName="goals"
+                placeholder="Enter routine goal"
+                required
+              />
+              <mat-error *ngIf="routineForm.get('goals')?.invalid">
+                Goal is required.
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="w-full">
+              <input
+                matInput
+                [matDatepicker]="startPicker"
+                formControlName="startDate"
+                placeholder="Enter start date"
+                required
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="startPicker"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #startPicker></mat-datepicker>
+              <mat-error *ngIf="routineForm.get('startDate')?.invalid">
+                Start date is required.
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="w-full">
+              <input
+                matInput
+                formControlName="startTime"
+                placeholder="Enter start time (HH:MM)"
+                required
+              />
+              <mat-error *ngIf="routineForm.get('startTime')?.invalid">
+                Start time is required.
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="w-full">
+              <input
+                matInput
+                [matDatepicker]="endPicker"
+                formControlName="endDate"
+                placeholder="Enter end date"
+                required
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="endPicker"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #endPicker></mat-datepicker>
+              <mat-error *ngIf="routineForm.get('endDate')?.invalid">
+                End date is required.
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="w-full">
+              <input
+                matInput
+                formControlName="endTime"
+                placeholder="Enter end time (HH:MM)"
+                required
+              />
+              <mat-error *ngIf="routineForm.get('endTime')?.invalid">
+                End time is required.
+              </mat-error>
+            </mat-form-field>
+
+            <div class="modal-actions space-x-3" align="end">
+              <button mat-button (click)="closeRoutineModal()">Cancel</button>
+              <button mat-raised-button color="primary" type="submit">
+                Save
+              </button>
+            </div>
+          </form>
+        </section>
+      </div>
+    </div>
+  </ng-container>
 </main>

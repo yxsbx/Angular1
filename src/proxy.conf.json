@@ -1,6 +1,6 @@
 {
   "/api": {
-    "target": "https://zenflow-back-end-java.onrender.com",
+    "target": "http://localhost:8080",
     "secure": false,
     "changeOrigin": true,
     "logLevel": "debug"

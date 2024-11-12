@@ -1,10 +1,10 @@
 import { Injectable, Inject } from '@angular/core';
-import { AuthService } from '../auth';
 import { CalendarService } from '../calendar/calendar.service';
 import { MoodLogService } from '../mood-log/mood-log.service';
 import { NotificationService } from '../notification/notification.service';
 import { RoutineService } from '../routine/routine.service';
 import { UserService } from '../user/user.service';
+import { AuthService } from '../auth/auth.service';
 
 /**
  * ApiService acts as a centralized access point for all API-related services,
